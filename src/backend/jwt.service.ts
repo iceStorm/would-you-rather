@@ -1,18 +1,14 @@
-import jose from 'jose'
+import * as jose from 'jose'
 
 export class JwtService {
     private static expirationTime = process.env.REACT_APP_TOKEN_EXPIRATION
-    private static privateKey = new TextEncoder().encode(
-        process.env.REACT_APP_PRIVATE_KEY,
-    )
+    private static privateKey = new TextEncoder().encode(process.env.REACT_APP_PRIVATE_KEY)
 
     /**
      * Sign @params as payload to a JWT token.
      */
     static sign(params: Record<string, any>) {
-        return new jose.SignJWT(params)
-            .setExpirationTime(this.expirationTime)
-            .sign(this.privateKey)
+        return new jose.SignJWT(params).setExpirationTime(this.expirationTime).sign(this.privateKey)
     }
 
     /**

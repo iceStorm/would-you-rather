@@ -11,6 +11,9 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState: {
         isSigningIn: false,
+        // currentUser: {
+        //     name: 'Anh Tuan',
+        // },
     } as AuthState,
     reducers: {
         [login.pending.type]: (state) => {

@@ -10,6 +10,7 @@ import { RegisterPage } from '../../pages/AuthSignup'
 import { LeaderBoardPage } from '../../pages/LeaderBoard'
 import { QuestionAddPage } from '../../pages/QuestionAdd'
 import { QuestionDetailPage } from '../../pages/QuestionDetail'
+import { QuestionList } from '../../pages/QuestionList'
 
 export function AppRoutes() {
     return (
@@ -23,17 +24,17 @@ export function AppRoutes() {
                     <Route path="profile" element={<PrivateRoute element={<ProfilePage />} />}></Route>
 
                     {/* Auth */}
-                    <Route path="login" element={<LoginPage />}></Route>
-                    <Route path="register" element={<RegisterPage />}></Route>
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="register" element={<RegisterPage />} />
 
                     {/* Question */}
-                    <Route path="questions" element={<PrivateRoute element={<Navigate to="/questions/add" />} />}>
-                        <Route path="add" element={<PrivateRoute element={<QuestionAddPage />} />}></Route>
-                        <Route path=":question_id" element={<PrivateRoute element={<QuestionDetailPage />} />}></Route>
+                    <Route path="questions" element={<QuestionList />}>
+                        <Route path="add" element={<PrivateRoute element={<QuestionAddPage />} />} />
+                        <Route path=":question_id" element={<PrivateRoute element={<QuestionDetailPage />} />} />
                     </Route>
 
                     {/* Leader Board */}
-                    <Route path="leaderboard" element={<PrivateRoute element={<LeaderBoardPage />} />}></Route>
+                    <Route path="leaderboard" element={<PrivateRoute element={<LeaderBoardPage />} />} />
 
                     {/* Fallback */}
                     <Route path="*" element={<NotFoundPage />} />
