@@ -9,17 +9,17 @@ export type AuthState = {
 
 export const authSlice = createSlice({
     name: 'auth',
-    initialState: <AuthState>{
+    initialState: {
         isSigningIn: false,
-    },
+    } as AuthState,
     reducers: {
-        [login.pending.type]: state => {
+        [login.pending.type]: (state) => {
             state.isSigningIn = true
         },
-        [login.fulfilled.type]: state => {
+        [login.fulfilled.type]: (state) => {
             state.isSigningIn = false
         },
-        [login.rejected.type]: state => {
+        [login.rejected.type]: (state) => {
             state.isSigningIn = false
         },
     },
