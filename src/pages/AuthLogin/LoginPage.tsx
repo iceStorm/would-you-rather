@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { MessageBar } from '@fluentui/react'
+import { MessageBar, ProgressIndicator } from '@fluentui/react'
 import clsx from 'clsx'
 
 import { AppInputField } from '../../components/AppInputField'
@@ -42,7 +42,7 @@ export function LoginPage() {
                 navigate((location.state as any).from || '/')
             })
             .catch((error) => {
-                showMessage('error', error.message)
+                showMessage('error', error)
             })
             .finally(() => {
                 setIsSubmitting(false)
@@ -53,59 +53,63 @@ export function LoginPage() {
         <div className="container">
             <form
                 onSubmit={onSubmit}
-                className={clsx('max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md p-5', styles.loginForm)}
+                className={clsx('max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md', styles.loginForm)}
             >
-                {/* heading */}
-                <div className="flex items-center gap-3 mb-14">
-                    <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
-                    <div className="flex flex-col">
-                        <h1 className="text-3xl font-bold">Sign In.</h1>
-                        <h5 className="">To express your desires.</h5>
-                    </div>
-                </div>
+                <ProgressIndicator progressHidden={!isSubmitting} barHeight={3} className="-mt-2" />
 
-                {/* fields */}
-                <div className="flex flex-col gap-3">
-                    <AppInputField
-                        type="text"
-                        control={control}
-                        name="username"
-                        autoComplete="username"
-                        placeholder="Username"
-                        className="app-input-field"
-                        disabled={isSubmitting}
-                        rules={{ required: { message: 'Please fill out username', value: true } }}
-                    />
-                    <AppInputField
-                        control={control}
-                        name="password"
-                        placeholder="Password"
-                        autoComplete="current-password"
-                        className="app-input-field"
-                        type="password"
-                        canRevealPasswords
-                        disabled={isSubmitting}
-                        rules={{ required: { message: 'Please fill out password', value: true } }}
-                    />
-
-                    {messageContent && (
-                        <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
-                            {messageContent}
-                        </MessageBar>
-                    )}
-
-                    <div className="flex justify-start mt-5 pl-1">
-                        <p>
-                            Don't have an account? &nbsp;
-                            <Link to="/register" className="app-link">
-                                Create one!
-                            </Link>
-                        </p>
+                <div className="form-wrapper p-5 px-7">
+                    {/* heading */}
+                    <div className="flex items-center gap-3 mb-14 mt-3">
+                        <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
+                        <div className="flex flex-col">
+                            <h1 className="text-3xl font-bold">Sign In.</h1>
+                            <h5 className="">To express your desires.</h5>
+                        </div>
                     </div>
 
-                    <button className="app-button mt-5" disabled={isSubmitting}>
-                        Continue
-                    </button>
+                    {/* fields */}
+                    <div className="flex flex-col gap-3">
+                        <AppInputField
+                            type="text"
+                            control={control}
+                            name="username"
+                            autoComplete="username"
+                            placeholder="Username"
+                            className="app-input-field"
+                            disabled={isSubmitting}
+                            rules={{ required: { message: 'Please fill out username', value: true } }}
+                        />
+                        <AppInputField
+                            control={control}
+                            name="password"
+                            placeholder="Password"
+                            autoComplete="current-password"
+                            className="app-input-field"
+                            type="password"
+                            canRevealPasswords
+                            disabled={isSubmitting}
+                            rules={{ required: { message: 'Please fill out password', value: true } }}
+                        />
+
+                        {messageContent && (
+                            <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
+                                {messageContent}
+                            </MessageBar>
+                        )}
+
+                        <div className="flex justify-start mt-5 pl-1">
+                            <p>
+                                Don't have an account? &nbsp;
+                                <Link to="/register" className="app-link">
+                                    Create one!
+                                </Link>
+                            </p>
+                        </div>
+
+                        <button className="app-button mt-5" disabled={isSubmitting}>
+                            Continue
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

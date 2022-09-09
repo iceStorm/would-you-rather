@@ -16,15 +16,15 @@ export type AppInputFieldProps = React.HTMLAttributes<HTMLInputElement> &
     }
 
 export function AppInputField(props: AppInputFieldProps) {
-    const { canRevealPasswords, type, ...nativeInputProps } = props
+    const { control, rules, name, defaultValue, canRevealPasswords, type, ...nativeInputProps } = props
     const [isShownPassword, setIsShownPassword] = useState(false)
 
     return (
         <Controller
-            name={props.name}
-            control={props.control}
-            rules={props.rules}
-            defaultValue={props.defaultValue || ''}
+            name={name}
+            control={control}
+            rules={rules}
+            defaultValue={defaultValue || ''}
             render={({ field: { onChange, onBlur, name: fieldName, value, ref }, fieldState: { error } }) => (
                 <div className="flex flex-col">
                     <div className="relative">

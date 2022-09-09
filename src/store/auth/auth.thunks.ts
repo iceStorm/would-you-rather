@@ -12,8 +12,8 @@ export const login = createAsyncThunk(
         try {
             const authToken = await AuthServer.login(username, password)
             localStorage.setItem(LOCAL_STORATE_KEY_JWT_TOKEN, authToken)
-        } catch (error) {
-            rejectWithValue(error)
+        } catch (error: any) {
+            return rejectWithValue(error.message)
         }
     },
 )
@@ -21,8 +21,8 @@ export const login = createAsyncThunk(
 export const verifyToken = createAsyncThunk('auth/verifyToken', async (undefined, { rejectWithValue }) => {
     try {
         await AuthServer.verifyToken(localStorage.getItem(LOCAL_STORATE_KEY_JWT_TOKEN) || '')
-    } catch (error) {
-        rejectWithValue(error)
+    } catch (error: any) {
+        return rejectWithValue(error.message)
     }
 })
 
@@ -31,8 +31,8 @@ export const register = createAsyncThunk(
     async ({ username, password, fullName }: RegisterParams, { rejectWithValue }) => {
         try {
             await AuthServer.register(username, password, fullName)
-        } catch (error) {
-            rejectWithValue(error)
+        } catch (error: any) {
+            return rejectWithValue(error.message)
         }
     },
 )

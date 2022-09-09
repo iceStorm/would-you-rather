@@ -1,4 +1,4 @@
-import { MessageBar } from '@fluentui/react'
+import { MessageBar, ProgressIndicator } from '@fluentui/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -35,7 +35,7 @@ export function RegisterPage() {
                 })
             })
             .catch((error) => {
-                showMessage('error', error.message)
+                showMessage('error', error)
             })
             .finally(() => {
                 setIsSubmitting(false)
@@ -47,71 +47,75 @@ export function RegisterPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md p-5',
+                    'max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md overflow-hidden',
                     styles.registerForm,
                 )}
             >
-                {/* heading */}
-                <div className="flex items-center gap-3 mb-14">
-                    <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
-                    <div className="flex flex-col">
-                        <h1 className="text-3xl font-bold">Sign Up.</h1>
-                        <h5>To join our fancy community.</h5>
-                    </div>
-                </div>
+                <ProgressIndicator progressHidden={!isSubmitting} barHeight={3} className="-mt-2" />
 
-                {/* fields */}
-                <div className="flex flex-col gap-3">
-                    <AppInputField
-                        type="text"
-                        control={control}
-                        name="username"
-                        autoComplete="username"
-                        placeholder="Username"
-                        className="app-input-field"
-                        disabled={isSubmitting}
-                        rules={{ required: { message: 'Please fill out username', value: true } }}
-                    />
-                    <AppInputField
-                        control={control}
-                        name="fullName"
-                        autoComplete="name"
-                        placeholder="Full name"
-                        className="app-input-field"
-                        type="text"
-                        disabled={isSubmitting}
-                        rules={{ required: { message: 'Please fill out your full name', value: true } }}
-                    />
-                    <AppInputField
-                        control={control}
-                        name="password"
-                        autoComplete="new-password"
-                        placeholder="Password"
-                        className="app-input-field"
-                        type="password"
-                        canRevealPasswords
-                        disabled={isSubmitting}
-                        rules={{ required: { message: 'Please fill out password', value: true } }}
-                    />
-
-                    {messageContent && (
-                        <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
-                            {messageContent}
-                        </MessageBar>
-                    )}
-
-                    <div className="flex justify-start mt-5 pl-1">
-                        <p>
-                            Already have an account? &nbsp;
-                            <Link to="/login" className="app-link">
-                                Sign in now!
-                            </Link>
-                        </p>
+                <div className="form-wrapper p-5">
+                    {/* heading */}
+                    <div className="flex items-center gap-3 mb-14">
+                        <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
+                        <div className="flex flex-col">
+                            <h1 className="text-3xl font-bold">Sign Up.</h1>
+                            <h5>To join our fancy community.</h5>
+                        </div>
                     </div>
 
-                    <button className="app-button mt-5" disabled={isSubmitting}>
-                        Register
-                    </button>
+                    {/* fields */}
+                    <div className="flex flex-col gap-3">
+                        <AppInputField
+                            type="text"
+                            control={control}
+                            name="username"
+                            autoComplete="username"
+                            placeholder="Username"
+                            className="app-input-field"
+                            disabled={isSubmitting}
+                            rules={{ required: { message: 'Please fill out username', value: true } }}
+                        />
+                        <AppInputField
+                            control={control}
+                            name="fullName"
+                            autoComplete="name"
+                            placeholder="Full name"
+                            className="app-input-field"
+                            type="text"
+                            disabled={isSubmitting}
+                            rules={{ required: { message: 'Please fill out your full name', value: true } }}
+                        />
+                        <AppInputField
+                            control={control}
+                            name="password"
+                            autoComplete="new-password"
+                            placeholder="Password"
+                            className="app-input-field"
+                            type="password"
+                            canRevealPasswords
+                            disabled={isSubmitting}
+                            rules={{ required: { message: 'Please fill out password', value: true } }}
+                        />
+
+                        {messageContent && (
+                            <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
+                                {messageContent}
+                            </MessageBar>
+                        )}
+
+                        <div className="flex justify-start mt-5 pl-1">
+                            <p>
+                                Already have an account? &nbsp;
+                                <Link to="/login" className={clsx('app-link', { disabled: isSubmitting })}>
+                                    Sign in now!
+                                </Link>
+                            </p>
+                        </div>
+
+                        <button className="app-button mt-5" disabled={isSubmitting}>
+                            Register
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

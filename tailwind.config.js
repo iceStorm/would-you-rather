@@ -9,6 +9,8 @@ module.exports = {
                 brown: '#AC4425',
                 light: '#D2D79F',
                 lighter: '#90B77D',
+                'disabled-text': '#ccc',
+                'disabled-bg': '#eee',
             },
         },
     },

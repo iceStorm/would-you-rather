@@ -128,9 +128,14 @@ const LOCAL_STORAGE_KEY_QUESTIONS = 'questions'
  * Saving initial data in this file to the local storage.
  * These data Acts as a Backend Database when the React app is being initialized first time.
  */
-export function saveInitialData() {
-    saveUsersToLocalStorage(INITIAL_USERS as UserRecords)
-    saveQuestionsToLocalStorage(INITIAL_QUESTIONS as QuestionRecords)
+export function initializeDatabase() {
+    const usersLength = Object.keys(getUsersFromLocalStorage()).length
+    const questionsLength = Object.keys(getQuestionsFromLocalStorage()).length
+
+    if (!usersLength || !questionsLength) {
+        saveUsersToLocalStorage(INITIAL_USERS as UserRecords)
+        saveQuestionsToLocalStorage(INITIAL_QUESTIONS as QuestionRecords)
+    }
 }
 
 export function saveUsersToLocalStorage(users: UserRecords) {
@@ -142,24 +147,12 @@ export function saveQuestionsToLocalStorage(questions: QuestionRecords) {
 }
 
 export function getUsersFromLocalStorage(): UserRecords {
-    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_USERS) || '[]')
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_USERS) || '{}')
 }
 
 export function getQuestionsFromLocalStorage(): QuestionRecords {
-    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUESTIONS) || '[]')
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUESTIONS) || '{}')
 }
-
-// export function _getUsers() {
-//     return new Promise((res, rej) => {
-//         setTimeout(() => res({ ...users }), 1000)
-//     })
-// }
-
-// export function _getQuestions() {
-//     return new Promise((res, rej) => {
-//         setTimeout(() => res({ ...questions }), 1000)
-//     })
-// }
 
 // function formatQuestion({ optionOneText, optionTwoText, author }) {
 //     return {

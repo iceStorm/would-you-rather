@@ -29,13 +29,19 @@ export class AuthServer {
     }
 
     static async login(username: string, password: string) {
-        const foundUser = this.users.find((user) => user.id === username && user.password === password)
+        await ServerUtils.sleepRandom({ minimum: 1750 })
 
-        if (!foundUser) {
-            throw new Error('Credentials not match')
+        const foundUserById = this.users.find((user) => user.id === username)
+        if (!foundUserById) {
+            throw new Error('Username not found')
         }
 
-        const authToken = await JwtService.sign({ userId: foundUser.id })
+        // check password
+        if (!(await ServerUtils.checkPassword(password, foundUserById.password))) {
+            throw new Error('Password does not match')
+        }
+
+        const authToken = await JwtService.sign({ userId: foundUserById.id })
         await ServerUtils.sleepRandom({ maximum: 750 })
         return authToken
     }
@@ -44,12 +50,12 @@ export class AuthServer {
         // check username duplication
         const foundUser = this.users.find((user) => user.id === username)
         if (foundUser) {
-            throw new Error('User with the provided username already exists')
+            throw new Error('Username already exists')
         }
 
         // save the new user to DB
         this.users = this.users.concat({
-            id: ServerUtils.generateUID(),
+            id: username,
             name: fullName,
             password: await ServerUtils.hashPassword(password),
             answers: {},
@@ -57,6 +63,6 @@ export class AuthServer {
             avatarURL: '',
         })
 
-        await ServerUtils.sleepRandom({ maximum: 750 })
+        await ServerUtils.sleepRandom({ minimum: 500, maximum: 1275 })
     }
 }

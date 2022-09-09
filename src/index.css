@@ -1,9 +1,9 @@
 @tailwind base;
 
 @tailwind components;
-@import './styles/app-input.scss';
-@import './styles/app-button.scss';
-@import './styles/app-link.scss';
+@import './styles/app-input.css';
+@import './styles/app-button.css';
+@import './styles/app-link.css';
 
 @tailwind utilities;
 
@@ -25,4 +25,10 @@ code {
 
 .container {
     margin: 0 auto;
+}
+
+/* customize FluentUI MessageBar */
+.ms-MessageBar {
+    border-radius: 5px;
+    overflow: hidden;
 }
