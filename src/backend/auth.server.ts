@@ -43,7 +43,7 @@ export class AuthServer {
         }
 
         const authToken = await JwtService.sign({ userId: foundUserById.id })
-        await ServerUtils.sleepRandom({ maximum: 750 })
+        await ServerUtils.sleepRandom({ minimum: 750 })
         return authToken
     }
 

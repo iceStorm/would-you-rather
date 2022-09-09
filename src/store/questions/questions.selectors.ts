@@ -1,3 +1,3 @@
 import { useAppSelector } from '../hooks'
 
-export const selectAllQuestions = () => useAppSelector((state) => state.questions.allQuestions)
+export const selectQuestionsState = useAppSelector((state) => state.questions)

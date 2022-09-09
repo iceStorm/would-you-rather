@@ -18,7 +18,13 @@ export class ServerUtils {
      * @param maximum maximum number of miliseconds to sleep. Default to 1000.
      * @returns
      */
-    static sleepRandom({ minimum = 0, maximum = 1000 }: { minimum?: number; maximum?: number }): Promise<void> {
+    static sleepRandom({
+        minimum = 0,
+        maximum = minimum + 1000,
+    }: {
+        minimum?: number
+        maximum?: number
+    }): Promise<void> {
         // getting a random number from minimum to maximum
         const ramdomNumber = minimum + Math.random() * (maximum - minimum)
 

@@ -5,5 +5,5 @@
 }
 
 .app-button:disabled {
-    @apply bg-gray-300 text-gray-400;
+    @apply bg-gray-200 text-gray-400;
 }

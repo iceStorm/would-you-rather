@@ -47,15 +47,15 @@ export function RegisterPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md overflow-hidden',
+                    'max-w-lg m-auto mt-10 border border-gray-100 rounded-md overflow-hidden',
                     styles.registerForm,
                 )}
             >
                 <ProgressIndicator progressHidden={!isSubmitting} barHeight={3} className="-mt-2" />
 
-                <div className="form-wrapper p-5">
+                <div className="form-wrapper p-5 px-7">
                     {/* heading */}
-                    <div className="flex items-center gap-3 mb-14">
+                    <div className="flex items-center gap-3 mb-14 mt-3">
                         <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
                         <div className="flex flex-col">
                             <h1 className="text-3xl font-bold">Sign Up.</h1>

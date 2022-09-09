@@ -27,8 +27,35 @@ code {
     margin: 0 auto;
 }
 
+:root {
+    --nprogress-bar-color: rgb(20, 165, 100);
+}
+
 /* customize FluentUI MessageBar */
 .ms-MessageBar {
     border-radius: 5px;
     overflow: hidden;
+}
+.ms-ProgressIndicator-progressBar {
+    background: linear-gradient(
+        to right,
+        rgb(237, 235, 233) 0%,
+        var(--nprogress-bar-color) 50%,
+        rgb(237, 235, 233) 100%
+    );
+}
+
+/* customize NProgress */
+#nprogress .bar {
+    background: var(--nprogress-bar-color);
+}
+#nprogress .peg {
+    box-shadow: 0 0 10px rgb(49, 239, 141), 0 0 5px rgb(34, 221, 168);
+}
+#nprogress .spinner {
+    transform: translateY(10px);
+}
+#nprogress .spinner-icon {
+    border-top-color: var(--nprogress-bar-color);
+    border-left-color: var(--nprogress-bar-color);
 }

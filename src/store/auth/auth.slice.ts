@@ -15,7 +15,7 @@ export const authSlice = createSlice({
         isVerifyingToken: false,
     } as AuthState,
     reducers: {
-        setCurrentUser(state, action: PayloadAction<User>) {
+        setCurrentUser(state, action: PayloadAction<User | undefined>) {
             state.currentUser = action.payload
         },
     },
@@ -40,6 +40,7 @@ export const authSlice = createSlice({
             state.isVerifyingToken = false
         },
         [verifyToken.rejected.type]: (state) => {
+            state.currentUser = undefined
             state.isVerifyingToken = false
         },
     },

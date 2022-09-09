@@ -25,6 +25,8 @@ export function LoginPage() {
     const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
 
     useEffect(() => {
+        console.log('location:', location.state)
+
         // auto fill the login form fields if was sent from registe page
         if (location.state && (location.state as RegisterParams).username) {
             setValue('username', (location.state as RegisterParams).username)
@@ -55,7 +57,7 @@ export function LoginPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md overflow-hidden',
+                    'max-w-lg m-auto mt-10 border border-gray-100 rounded-md overflow-hidden',
                     styles.loginForm,
                 )}
             >

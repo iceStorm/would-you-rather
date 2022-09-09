@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from 'react-router-dom'
 
-import './App.css'
 import { AppHeader } from '../AppHeader'
 import { AppProgressBar } from '../AppProgressBar'
+import './App.css'
 
 export function App() {
     const location = useLocation()
