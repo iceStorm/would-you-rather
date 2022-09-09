@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MessageBar, ProgressIndicator } from '@fluentui/react'
@@ -10,18 +9,19 @@ import { AppLogo } from '../../components/AppLogo'
 import { useAppMessage } from '../../hooks/useAppMessage'
 import { LoginParams } from '../../models/LoginParams'
 import { RegisterParams } from '../../models/RegisterParams'
-
-import styles from './LoginPage.module.css'
 import { useAppDispatch } from '../../store'
 import { login } from '../../store/auth/auth.thunks'
-import { authSlice } from '../../store/auth/auth.slice'
+import { selectAuthState } from '../../store/auth/auth.selectors'
+import styles from './LoginPage.module.css'
+import { useAppSelector } from '../../store/hooks'
 
 export function LoginPage() {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+
+    const { isSigningIn } = useAppSelector((state) => state.auth)
     const { control, handleSubmit, setValue } = useForm<LoginParams>()
-    const [isSubmitting, setIsSubmitting] = useState(false)
     const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
 
     useEffect(() => {
@@ -38,23 +38,15 @@ export function LoginPage() {
     }, [])
 
     const onSubmit = handleSubmit((data) => {
-        setIsSubmitting(true)
         clearMessage()
 
         dispatch(login(data))
             .unwrap()
             .then(() => {
-                authSlice.actions.setCurrentUser({
-                    id: data.username,
-                })
-
                 navigate((location.state as any).from || '/')
             })
             .catch((error) => {
                 showMessage('error', error)
-            })
-            .finally(() => {
-                setIsSubmitting(false)
             })
     })
 
@@ -67,7 +59,7 @@ export function LoginPage() {
                     styles.loginForm,
                 )}
             >
-                <ProgressIndicator progressHidden={!isSubmitting} barHeight={3} className="-mt-2" />
+                <ProgressIndicator progressHidden={!isSigningIn} barHeight={3} className="-mt-2" />
 
                 <div className="form-wrapper p-5 px-7">
                     {/* heading */}
@@ -88,7 +80,7 @@ export function LoginPage() {
                             autoComplete="username"
                             placeholder="Username"
                             className="app-input-field"
-                            disabled={isSubmitting}
+                            disabled={isSigningIn}
                             rules={{ required: { message: 'Please fill out username', value: true } }}
                         />
                         <AppInputField
@@ -99,7 +91,7 @@ export function LoginPage() {
                             className="app-input-field"
                             type="password"
                             canRevealPasswords
-                            disabled={isSubmitting}
+                            disabled={isSigningIn}
                             rules={{ required: { message: 'Please fill out password', value: true } }}
                         />
 
@@ -112,13 +104,13 @@ export function LoginPage() {
                         <div className="flex justify-start mt-5 pl-1">
                             <p>
                                 Don't have an account? &nbsp;
-                                <Link to="/register" className="app-link">
+                                <Link to="/register" className={clsx('app-link', { disabled: isSigningIn })}>
                                     Create one!
                                 </Link>
                             </p>
                         </div>
 
-                        <button className="app-button mt-5" disabled={isSubmitting}>
+                        <button className="app-button mt-5" disabled={isSigningIn}>
                             Continue
                         </button>
                     </div>

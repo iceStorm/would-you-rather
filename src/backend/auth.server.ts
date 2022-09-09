@@ -1,34 +1,24 @@
 import { User, UserRecords } from '../models/User'
 import { JwtService } from './jwt.service'
+import { UsersServer } from './users.server'
 import { ServerUtils } from './utils.server'
 import { getUsersFromLocalStorage, saveUsersToLocalStorage } from './_DATA'
 
 export class AuthServer {
-    /**
-     * Array of all users in local storage.
-     */
-    static get users(): User[] {
-        return Object.values(getUsersFromLocalStorage())
-    }
-    static set users(users: User[]) {
-        saveUsersToLocalStorage(Object.fromEntries(users.map((user) => [user.id, user])))
-    }
-    /**
-     * Dictionary of all users in local storage, each item has its own unique key.
-     */
-    static get usersWithKey(): UserRecords {
-        return getUsersFromLocalStorage()
-    }
-    static set usersWithKey(records: UserRecords) {
-        saveUsersToLocalStorage(records)
-    }
-
     static async verifyToken(token: string) {
         try {
-            await JwtService.verify(token)
+            const { userId } = (await JwtService.verify(token)).payload
+            const foundUser = UsersServer.users.find((user) => user.id === userId)
+
+            if (!foundUser) {
+                throw new Error(`User ${userId} no longer exist`)
+            }
+
+            await ServerUtils.sleepRandom({})
+            return foundUser
         } catch (error: any) {
             if (error.message === '"exp" claim timestamp check failed') {
-                throw new Error('Authentication token expired. Please log in again')
+                throw new Error('Your login session has expired. Please log in again')
             }
 
             if (error.message === 'JWS Protected Header is invalid') {
@@ -37,14 +27,12 @@ export class AuthServer {
 
             throw error
         }
-
-        await ServerUtils.sleepRandom({})
     }
 
     static async login(username: string, password: string) {
         await ServerUtils.sleepRandom({ minimum: 1750 })
 
-        const foundUserById = this.users.find((user) => user.id === username)
+        const foundUserById = UsersServer.users.find((user) => user.id === username)
         if (!foundUserById) {
             throw new Error('Username not found')
         }
@@ -61,13 +49,13 @@ export class AuthServer {
 
     static async register(username: string, password: string, fullName: string) {
         // check username duplication
-        const foundUser = this.users.find((user) => user.id === username)
+        const foundUser = UsersServer.users.find((user) => user.id === username)
         if (foundUser) {
             throw new Error('Username already exists')
         }
 
         // save the new user to DB
-        this.users = this.users.concat({
+        UsersServer.addUser({
             id: username,
             name: fullName,
             password: await ServerUtils.hashPassword(password),

@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import { authSlice } from './auth/auth.slice'
+import { questionsSlice } from './questions/questions.slice'
+import { userSlice } from './users/users.slice'
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
+        questions: questionsSlice.reducer,
+        users: userSlice.reducer,
     },
 })
 

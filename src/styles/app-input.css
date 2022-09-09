@@ -5,7 +5,7 @@
 }
 
 .app-input-field.invalid {
-    @apply border-brown border-opacity-50 bg-brown bg-opacity-10;
+    @apply border-brown border-opacity-40 bg-brown bg-opacity-5;
 }
 
 .app-input-field:disabled {

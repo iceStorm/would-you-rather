@@ -1,4 +1,5 @@
 import { Question, QuestionRecords } from '../models/Question'
+import { AuthServer } from './auth.server'
 import { getQuestionsFromLocalStorage, saveQuestionsToLocalStorage } from './_DATA'
 
 export class QuestionsServer {
@@ -19,5 +20,10 @@ export class QuestionsServer {
     }
     static set questionsWithKey(records: QuestionRecords) {
         saveQuestionsToLocalStorage(records)
+    }
+
+    static async getAllQuestions(token: string) {
+        await AuthServer.verifyToken(token)
+        return this.questions
     }
 }

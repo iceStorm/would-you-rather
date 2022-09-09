@@ -1,46 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { AuthServer } from '../../backend/auth.server'
+import { AuthService } from './auth.service'
 import { LoginParams } from '../../models/LoginParams'
 import { RegisterParams } from '../../models/RegisterParams'
+import { authSlice, setCurrentUser } from './auth.slice'
 
-const LOCAL_STORATE_KEY_JWT_TOKEN = 'auth-token'
-
-export const getAuthToken = () => {
-    return localStorage.getItem(LOCAL_STORATE_KEY_JWT_TOKEN)
-}
-export const clearAuthToken = () => {
-    return localStorage.removeItem(LOCAL_STORATE_KEY_JWT_TOKEN)
-}
-
-export const login = createAsyncThunk(
-    'auth/login',
-    async ({ username, password }: LoginParams, { rejectWithValue }) => {
-        try {
-            const authToken = await AuthServer.login(username, password)
-            localStorage.setItem(LOCAL_STORATE_KEY_JWT_TOKEN, authToken)
-        } catch (error: any) {
-            return rejectWithValue(error.message)
-        }
-    },
-)
-
-export const verifyToken = createAsyncThunk('auth/verifyToken', async (undefined, { rejectWithValue }) => {
+// delegating main login to AuthService (frontend), these thunks should only handle end results
+export const login = createAsyncThunk('auth/login', async (credentials: LoginParams, { rejectWithValue }) => {
     try {
-        await AuthServer.verifyToken(localStorage.getItem(LOCAL_STORATE_KEY_JWT_TOKEN) || '')
+        await AuthService.login(credentials)
     } catch (error: any) {
-        console.error('Verify token error:', error)
         return rejectWithValue(error.message)
     }
 })
 
-export const register = createAsyncThunk(
-    'auth/register',
-    async ({ username, password, fullName }: RegisterParams, { rejectWithValue }) => {
-        try {
-            await AuthServer.register(username, password, fullName)
-        } catch (error: any) {
-            return rejectWithValue(error.message)
-        }
-    },
-)
+export const verifyToken = createAsyncThunk('auth/verifyToken', async (undefined, { rejectWithValue }) => {
+    try {
+        const user = await AuthService.verifyToken()
+        return user
+    } catch (error: any) {
+        console.error('verifyToken error:', error)
+        return rejectWithValue(error.message)
+    }
+})
+
+export const register = createAsyncThunk('auth/register', async (credentials: RegisterParams, { rejectWithValue }) => {
+    try {
+        await AuthService.register(credentials)
+    } catch (error: any) {
+        return rejectWithValue(error.message)
+    }
+})
