@@ -149,17 +149,6 @@ export function getQuestionsFromLocalStorage(): QuestionRecords {
     return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUESTIONS) || '[]')
 }
 
-// function generateUID() {
-//     return (
-//         Math.random()
-//             .toString(36)
-//             .substring(2, 15) +
-//         Math.random()
-//             .toString(36)
-//             .substring(2, 15)
-//     )
-// }
-
 // export function _getUsers() {
 //     return new Promise((res, rej) => {
 //         setTimeout(() => res({ ...users }), 1000)

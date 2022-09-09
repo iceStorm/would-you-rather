@@ -1,0 +1,12 @@
+.app-input-field {
+    @apply w-full py-3  px-3 rounded-md border-2 border-gray-200
+    focus:outline-none focus:border-primary
+    hover:bg-gray-50;
+
+    &.invalid {
+        @apply border-brown bg-brown bg-opacity-50;
+    }
+    &:disabled {
+        @apply text-gray-400;
+    }
+}

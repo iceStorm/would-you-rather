@@ -4,9 +4,14 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: 'blue',
+                primary: '#7FB77E',
+                secondary: '#42855B',
+                brown: '#AC4425',
+                light: '#D2D79F',
+                lighter: '#90B77D',
             },
         },
     },
+    darkMode: 'class',
     plugins: [],
 }

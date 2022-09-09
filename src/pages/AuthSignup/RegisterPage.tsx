@@ -1,7 +1,119 @@
+import { MessageBar } from '@fluentui/react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
+
+import { AppInputField } from '../../components/AppInputField'
+import { AppLogo } from '../../components/AppLogo'
+import { useAppMessage } from '../../hooks/useAppMessage'
+import { RegisterParams } from '../../models/RegisterParams'
+import { register } from '../../store/auth/auth.thunks'
+import { useAppDispatch } from '../../store/hooks'
+
+import styles from './RegisterPage.module.css'
+
 export function RegisterPage() {
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
+    const { control, handleSubmit } = useForm<RegisterParams>()
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const onSubmit = handleSubmit((data) => {
+        setIsSubmitting(true)
+        clearMessage()
+
+        dispatch(register(data))
+            .unwrap()
+            .then(() => {
+                // redirect to the login page with user registered info to auto fill
+                navigate('/login', {
+                    state: {
+                        ...data,
+                    },
+                })
+            })
+            .catch((error) => {
+                showMessage('error', error.message)
+            })
+            .finally(() => {
+                setIsSubmitting(false)
+            })
+    })
+
     return (
         <div className="container">
-            <h1>Register</h1>
+            <form
+                onSubmit={onSubmit}
+                className={clsx(
+                    'max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md p-5',
+                    styles.registerForm,
+                )}
+            >
+                {/* heading */}
+                <div className="flex items-center gap-3 mb-14">
+                    <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
+                    <div className="flex flex-col">
+                        <h1 className="text-3xl font-bold">Sign Up.</h1>
+                        <h5>To join our fancy community.</h5>
+                    </div>
+                </div>
+
+                {/* fields */}
+                <div className="flex flex-col gap-3">
+                    <AppInputField
+                        type="text"
+                        control={control}
+                        name="username"
+                        autoComplete="username"
+                        placeholder="Username"
+                        className="app-input-field"
+                        disabled={isSubmitting}
+                        rules={{ required: { message: 'Please fill out username', value: true } }}
+                    />
+                    <AppInputField
+                        control={control}
+                        name="fullName"
+                        autoComplete="name"
+                        placeholder="Full name"
+                        className="app-input-field"
+                        type="text"
+                        disabled={isSubmitting}
+                        rules={{ required: { message: 'Please fill out your full name', value: true } }}
+                    />
+                    <AppInputField
+                        control={control}
+                        name="password"
+                        autoComplete="new-password"
+                        placeholder="Password"
+                        className="app-input-field"
+                        type="password"
+                        canRevealPasswords
+                        disabled={isSubmitting}
+                        rules={{ required: { message: 'Please fill out password', value: true } }}
+                    />
+
+                    {messageContent && (
+                        <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
+                            {messageContent}
+                        </MessageBar>
+                    )}
+
+                    <div className="flex justify-start mt-5 pl-1">
+                        <p>
+                            Already have an account? &nbsp;
+                            <Link to="/login" className="app-link">
+                                Sign in now!
+                            </Link>
+                        </p>
+                    </div>
+
+                    <button className="app-button mt-5" disabled={isSubmitting}>
+                        Register
+                    </button>
+                </div>
+            </form>
         </div>
     )
 }

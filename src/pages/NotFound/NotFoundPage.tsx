@@ -1,3 +1,7 @@
 export function NotFoundPage() {
-    return <div>Oops! Not found!</div>
+    return (
+        <div className="container p-5 text-center">
+            <div>Oops! Page not found!</div>
+        </div>
+    )
 }

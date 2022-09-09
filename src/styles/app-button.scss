@@ -1,0 +1,9 @@
+.app-button {
+    @apply bg-primary rounded-md p-3 font-medium
+        transition-all shadow-md text-white
+        hover:bg-secondary;
+
+    & :disabled {
+        @apply bg-gray-500 text-gray-400;
+    }
+}
