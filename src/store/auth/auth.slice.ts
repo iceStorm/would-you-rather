@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from '../../models/User'
 import { login } from './auth.thunks'
 
@@ -14,6 +14,9 @@ export const authSlice = createSlice({
         // },
     } as AuthState,
     reducers: {
+        setCurrentUser(state, action: PayloadAction<Partial<User>>) {
+            state.currentUser = action.payload as User
+        },
         [login.pending.type]: (state) => {},
         [login.fulfilled.type]: (state) => {},
         [login.rejected.type]: (state) => {},

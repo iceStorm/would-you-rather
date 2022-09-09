@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 import { BaseComponentProps } from '../../models/BaseComponentProps'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
-import { verifyToken } from '../../store/auth/auth.thunks'
+import { clearAuthToken, getAuthToken, verifyToken } from '../../store/auth/auth.thunks'
 import { useAppDispatch } from '../../store/hooks'
 
 type PrivateRouteProps = BaseComponentProps & {
@@ -15,8 +15,9 @@ export function PrivateRoute({ element }: PrivateRouteProps) {
     const dispatch = useAppDispatch()
     const currentUser = selectCurrentUser()
     const [isTokenVerified, setTokenVerified] = useState(false)
+    const authToken = getAuthToken()
 
-    if (!currentUser) {
+    if (!currentUser && !authToken) {
         return <Navigate to="/login" replace state={{ from: location.pathname }} />
     }
 
@@ -30,7 +31,8 @@ export function PrivateRoute({ element }: PrivateRouteProps) {
         })
         .catch((error) => {
             // token verifying error -> need to login again
-            console.error('Verify token error:', error)
+            clearAuthToken()
+            return <Navigate to="/login" replace state={{ error }} />
         })
 
     return isTokenVerified ? element : <></>

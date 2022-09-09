@@ -24,7 +24,20 @@ export class AuthServer {
     }
 
     static async verifyToken(token: string) {
-        await JwtService.verify(token)
+        try {
+            await JwtService.verify(token)
+        } catch (error: any) {
+            if (error.message === '"exp" claim timestamp check failed') {
+                throw new Error('Authentication token expired. Please log in again')
+            }
+
+            if (error.message === 'JWS Protected Header is invalid') {
+                throw new Error('Authentication token was tampered. Please log in again')
+            }
+
+            throw error
+        }
+
         await ServerUtils.sleepRandom({})
     }
 

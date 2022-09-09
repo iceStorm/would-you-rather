@@ -14,6 +14,7 @@ import { RegisterParams } from '../../models/RegisterParams'
 import styles from './LoginPage.module.css'
 import { useAppDispatch } from '../../store'
 import { login } from '../../store/auth/auth.thunks'
+import { authSlice } from '../../store/auth/auth.slice'
 
 export function LoginPage() {
     const location = useLocation()
@@ -30,6 +31,10 @@ export function LoginPage() {
             setValue('password', (location.state as RegisterParams).password)
             showMessage('success', 'Successfully registered. Now you can sign in using the credentials.')
         }
+
+        if (location.state && (location.state as any).error) {
+            showMessage('error', (location.state as any).error)
+        }
     }, [])
 
     const onSubmit = handleSubmit((data) => {
@@ -39,6 +44,10 @@ export function LoginPage() {
         dispatch(login(data))
             .unwrap()
             .then(() => {
+                authSlice.actions.setCurrentUser({
+                    id: data.username,
+                })
+
                 navigate((location.state as any).from || '/')
             })
             .catch((error) => {
@@ -53,7 +62,10 @@ export function LoginPage() {
         <div className="container">
             <form
                 onSubmit={onSubmit}
-                className={clsx('max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md', styles.loginForm)}
+                className={clsx(
+                    'max-w-lg m-auto mt-10 border border-gray-100 shadow rounded-md overflow-hidden',
+                    styles.loginForm,
+                )}
             >
                 <ProgressIndicator progressHidden={!isSubmitting} barHeight={3} className="-mt-2" />
 

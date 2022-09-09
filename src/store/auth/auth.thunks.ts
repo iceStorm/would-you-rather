@@ -6,6 +6,13 @@ import { RegisterParams } from '../../models/RegisterParams'
 
 const LOCAL_STORATE_KEY_JWT_TOKEN = 'auth-token'
 
+export const getAuthToken = () => {
+    return localStorage.getItem(LOCAL_STORATE_KEY_JWT_TOKEN)
+}
+export const clearAuthToken = () => {
+    return localStorage.removeItem(LOCAL_STORATE_KEY_JWT_TOKEN)
+}
+
 export const login = createAsyncThunk(
     'auth/login',
     async ({ username, password }: LoginParams, { rejectWithValue }) => {
@@ -22,6 +29,7 @@ export const verifyToken = createAsyncThunk('auth/verifyToken', async (undefined
     try {
         await AuthServer.verifyToken(localStorage.getItem(LOCAL_STORATE_KEY_JWT_TOKEN) || '')
     } catch (error: any) {
+        console.error('Verify token error:', error)
         return rejectWithValue(error.message)
     }
 })
