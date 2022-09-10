@@ -23,10 +23,6 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.container {
-    margin: 0 auto;
-}
-
 :root {
     --nprogress-bar-color: rgb(20, 165, 100);
 }

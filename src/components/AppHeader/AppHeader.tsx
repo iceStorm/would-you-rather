@@ -57,7 +57,7 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
                 <div className="flex-1 flex justify-start items-center">
                     <a href="/" className="inline-flex items-center gap-2" title="Home">
                         <AppLogo width={30} className="drop-shadow-lg" />
-                        <span className="font-bold text-xl dark:text-gray-200">
+                        <span className="font-bold text-xl text-slate-600 drop-shadow-lg dark:text-gray-200">
                             {process.env.REACT_APP_NAME.split(' ').join('').toLowerCase()}
                         </span>
                     </a>

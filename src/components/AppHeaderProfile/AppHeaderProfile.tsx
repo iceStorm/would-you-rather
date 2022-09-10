@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { logOut, setCurrentUser } from '../../store/auth/auth.slice'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../store'
 
 export function AppHeaderProfile() {
@@ -20,7 +20,7 @@ export function AppHeaderProfile() {
                         <Menu.Button className="inline-flex w-full justify-center rounded-full border border-light-border dark:border-gray-700 bg-white dark:bg-slate-900 px-4 py-2 pl-3 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-none">
                             <div className="flex gap-3">
                                 <img src={''} alt="" className="w-5 h-5 rounded-md border border-gray-200" />
-                                <span className="font-medium">Hello, {currentUser.name}</span>
+                                <span className="font-medium dark:text-gray-200">Hello, {currentUser.name}</span>
                             </div>
 
                             <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
@@ -40,8 +40,8 @@ export function AppHeaderProfile() {
                             <div className="py-1">
                                 <Menu.Item>
                                     {({ active }) => (
-                                        <a
-                                            href="#"
+                                        <Link
+                                            to="/profile"
                                             className={clsx(
                                                 active
                                                     ? 'bg-gray-100 dark:bg-gray-600 dark:bg-opacity-25 text-gray-900 dark:text-gray-400'
@@ -50,7 +50,7 @@ export function AppHeaderProfile() {
                                             )}
                                         >
                                             My Profile
-                                        </a>
+                                        </Link>
                                     )}
                                 </Menu.Item>
                             </div>
