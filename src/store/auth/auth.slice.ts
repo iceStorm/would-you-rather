@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from '../../models/User'
+import { AuthService } from './auth.service'
 import { login, verifyToken } from './auth.thunks'
 
 export type AuthState = {
@@ -17,6 +18,10 @@ export const authSlice = createSlice({
     reducers: {
         setCurrentUser(state, action: PayloadAction<User | undefined>) {
             state.currentUser = action.payload
+        },
+        logOut(state) {
+            state.currentUser = undefined
+            AuthService.token = ''
         },
     },
     extraReducers: {
@@ -46,4 +51,4 @@ export const authSlice = createSlice({
     },
 })
 
-export const { setCurrentUser } = authSlice.actions
+export const { setCurrentUser, logOut } = authSlice.actions

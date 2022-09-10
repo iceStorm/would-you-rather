@@ -1,15 +1,107 @@
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
+import { Fragment } from 'react'
+import clsx from 'clsx'
+import { Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { logOut, setCurrentUser } from '../../store/auth/auth.slice'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../../store'
 
 export function AppHeaderProfile() {
     const currentUser = selectCurrentUser()
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
     return (
-        <button>
+        <>
             {currentUser && (
-                <a className="rounded-full px-3 py-1.5 border border-gray-200 shadow">
-                    <span className="font-medium">Hello, {currentUser.name}</span>
-                </a>
+                <Menu as="div" className="relative inline-block text-left">
+                    <div>
+                        <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 pl-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                            <div className="flex gap-3">
+                                <img src={''} alt="" className="w-5 h-5 rounded-md border border-gray-200" />
+                                <span className="font-medium">Hello, {currentUser.name}</span>
+                            </div>
+
+                            <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                        </Menu.Button>
+                    </div>
+
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div className="py-1">
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="#"
+                                            className={clsx(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                            )}
+                                        >
+                                            Account settings
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="#"
+                                            className={clsx(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                            )}
+                                        >
+                                            Support
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="#"
+                                            className={clsx(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                            )}
+                                        >
+                                            License
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            </div>
+
+                            <div>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <button
+                                            type="submit"
+                                            className={clsx(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block w-full px-4 py-2 text-left text-sm',
+                                            )}
+                                            onClick={(e) => {
+                                                dispatch(logOut())
+                                                navigate('/')
+                                            }}
+                                        >
+                                            Sign out
+                                        </button>
+                                    )}
+                                </Menu.Item>
+                            </div>
+                        </Menu.Items>
+                    </Transition>
+                </Menu>
             )}
-        </button>
+        </>
     )
 }

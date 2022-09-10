@@ -4,10 +4,11 @@ import { Link, useLocation } from 'react-router-dom'
 import { AppHeaderProfile } from '../AppHeaderProfile'
 
 import { AppLogo } from '../AppLogo'
+import { selectCurrentUser } from '../../store/auth/auth.selectors'
+
 import newsFeedIcon from '../../assets/icons8-feedly-48.png'
 import askIcon from '../../assets/icons8-help-48.png'
 import prizeIcon from '../../assets/icons8-star-half-empty-48.png'
-import { selectCurrentUser } from '../../store/auth/auth.selectors'
 
 type HeaderMenuItem = {
     title: string
