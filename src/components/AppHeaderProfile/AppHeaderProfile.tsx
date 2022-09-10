@@ -55,7 +55,7 @@ export function AppHeaderProfile() {
                                 </Menu.Item>
                             </div>
 
-                            <div>
+                            <div className="py-1">
                                 <Menu.Item>
                                     {({ active }) => (
                                         <button

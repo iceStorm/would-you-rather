@@ -53,7 +53,7 @@ export function LoginPage() {
     })
 
     return (
-        <div className="container">
+        <div className="container pb-10">
             <form
                 onSubmit={onSubmit}
                 className={clsx(

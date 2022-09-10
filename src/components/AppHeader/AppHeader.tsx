@@ -9,7 +9,7 @@ import { selectCurrentUser } from '../../store/auth/auth.selectors'
 import newsFeedIcon from '../../assets/icons8-feedly-48.png'
 import askIcon from '../../assets/icons8-chat-48.png'
 import prizeIcon from '../../assets/icons8-star-half-empty-48.png'
-import { AppColorSwitcher } from '../AppColorSwitcher'
+import { AppThemeSwitcher } from '../AppThemeSwitcher'
 
 type HeaderMenuItem = {
     title: string
@@ -98,7 +98,7 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
 
                 {/* profile dropdown */}
                 <div className="flex-1 flex justify-end items-center gap-3">
-                    <AppColorSwitcher />
+                    <AppThemeSwitcher />
                     <AppHeaderProfile />
                 </div>
             </div>

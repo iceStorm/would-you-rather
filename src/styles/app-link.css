@@ -1,5 +1,5 @@
 .app-link {
-    @apply text-secondary border-b border-dotted border-secondary hover:border-solid;
+    @apply text-secondary dark:text-primary border-b border-dotted border-secondary hover:border-solid;
 }
 
 .app-link.disabled {

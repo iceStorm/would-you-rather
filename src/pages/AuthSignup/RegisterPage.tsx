@@ -43,7 +43,7 @@ export function RegisterPage() {
     })
 
     return (
-        <div className="container">
+        <div className="container pb-10">
             <form
                 onSubmit={onSubmit}
                 className={clsx(
@@ -59,7 +59,7 @@ export function RegisterPage() {
                     {/* heading */}
                     <div className="flex items-center gap-3 mb-14 mt-3">
                         <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
-                        <div className="flex flex-col">
+                        <div className="flex flex-col dark:text-gray-200">
                             <h1 className="text-3xl font-bold">Sign Up.</h1>
                             <h5>To join our fancy community.</h5>
                         </div>
