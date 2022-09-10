@@ -44,6 +44,9 @@ code {
         rgb(237, 235, 233) 100%
     );
 }
+/* .ms-ProgressIndicator-progressTrack {
+    @apply dark:bg-slate-800;
+} */
 
 /* customize NProgress */
 #nprogress .bar {

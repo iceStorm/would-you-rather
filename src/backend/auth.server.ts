@@ -30,7 +30,7 @@ export class AuthServer {
     }
 
     static async login(username: string, password: string) {
-        await ServerUtils.sleepRandom({ minimum: 1750 })
+        await ServerUtils.sleepRandom({ minimum: 750 })
 
         const foundUserById = UsersServer.users.find((user) => user.id === username)
         if (!foundUserById) {

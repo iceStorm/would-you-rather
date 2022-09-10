@@ -1,6 +1,7 @@
 .app-input-field {
-    @apply w-full py-3  px-3 rounded-md border-2 border-gray-200
+    @apply w-full py-3  px-3 rounded-md border-2 border-gray-200 dark:border-dark-border
     focus:outline-none focus:border-primary
+    dark:bg-dark
     hover:bg-gray-50;
 }
 

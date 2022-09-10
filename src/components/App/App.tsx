@@ -1,18 +1,14 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 import { AppHeader } from '../AppHeader'
-import { AppProgressBar } from '../AppProgressBar'
 import './App.css'
 
 export function App() {
-    const location = useLocation()
-
     return (
-        <div className="app min-h-screen flex flex-col">
-            {/* <AppProgressBar key={location.key} /> */}
-            <AppHeader className="sticky top-0 border-b border-gray-200 bg-white bg-opacity-80 backdrop-blur-md z-10" />
+        <div className="app min-h-screen flex flex-col bg-light dark:bg-dark text-light-text dark:text-dark-text">
+            <AppHeader className="sticky top-0 border-b border-gray-200 dark:border-opacity-20 bg-white dark:bg-slate-800 bg-opacity-80 backdrop-blur-md z-10" />
 
-            <main className="flex-1">
+            <main className="flex-1 pt-5">
                 <Outlet />
             </main>
         </div>

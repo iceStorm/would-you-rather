@@ -47,13 +47,13 @@ export function AppInputField(props: AppInputFieldProps) {
                                 type="button"
                                 title={isShownPassword ? 'Hide password' : 'Show password'}
                                 onClick={(e) => setIsShownPassword(!isShownPassword)}
-                                className="absolute right-1.5 top-1.5 hover:bg-gray-100 p-2.5 rounded-md"
+                                className="absolute right-1.5 top-1.5 hover:bg-gray-100 dark:hover:bg-dark-border p-2.5 rounded-md"
                             >
                                 {isShownPassword && (
-                                    <img className="w-5 grayscale" src={eyeOffIcon} alt="hide_password" />
+                                    <img className="w-5 grayscale dark:invert" src={eyeOffIcon} alt="hide_password" />
                                 )}
                                 {!isShownPassword && (
-                                    <img className="w-5 grayscale" src={eyeIcon} alt="show_password" />
+                                    <img className="w-5 grayscale dark:invert" src={eyeIcon} alt="show_password" />
                                 )}
                             </button>
                         )}

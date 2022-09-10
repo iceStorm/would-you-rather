@@ -7,8 +7,9 @@ import { AppLogo } from '../AppLogo'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
 
 import newsFeedIcon from '../../assets/icons8-feedly-48.png'
-import askIcon from '../../assets/icons8-help-48.png'
+import askIcon from '../../assets/icons8-chat-48.png'
 import prizeIcon from '../../assets/icons8-star-half-empty-48.png'
+import { AppColorSwitcher } from '../AppColorSwitcher'
 
 type HeaderMenuItem = {
     title: string
@@ -29,14 +30,14 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
                 href: '/',
                 icon: newsFeedIcon,
                 description: 'View community questions',
-                titleColor: 'text-green-700',
+                titleColor: 'text-green-700 dark:text-green-600',
             },
             {
                 title: 'Create Question',
                 href: '/questions/add',
                 icon: askIcon,
                 description: 'Submit a new question',
-                titleColor: 'text-blue-500',
+                titleColor: 'text-blue-500 dark:text-blue-400',
             },
             {
                 title: 'Leader Board',
@@ -51,18 +52,20 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
 
     return (
         <header {...props} className={clsx('app-header', props.className)}>
-            <div className="container py-3 flex items-center justify-between">
+            <div className="container py-3 pb-2.5 flex items-center justify-between">
                 {/* logo */}
-                <div className="flex-1">
+                <div className="flex-1 flex justify-start items-center">
                     <a href="/" className="inline-flex items-center gap-2" title="Home">
-                        <AppLogo width={40} className="drop-shadow-lg" />
-                        <span className="font-bold text-xl">{process.env.REACT_APP_NAME}</span>
+                        <AppLogo width={30} className="drop-shadow-lg" />
+                        <span className="font-bold text-xl dark:text-gray-200">
+                            {process.env.REACT_APP_NAME.split(' ').join('').toLowerCase()}
+                        </span>
                     </a>
                 </div>
 
                 {/* navigation */}
                 {currentUser && (
-                    <nav className="" style={{ flex: '2' }}>
+                    <nav className="flex justify-center items-center" style={{ flex: '2' }}>
                         <ul className="flex items-center justify-center gap-6">
                             {headerMenuItems.map((item) => {
                                 return (
@@ -71,11 +74,12 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
                                             to={item.href}
                                             title={item.description}
                                             className={clsx(
-                                                'inline-flex items-center gap-2 rounded-full py-1 pl-1.5 pr-3 border border-gray-200',
-                                                'hover:bg-gray-50',
+                                                'inline-flex items-center gap-2 rounded-full py-1 pl-2 pr-3',
+                                                'border border-light-border dark:border-dark-border',
+                                                'hover:bg-gray-50 dark:hover:bg-slate-900',
                                                 { grayscale: location.pathname !== item.href },
                                                 {
-                                                    'bg-gray-100 border-gray-300 shadow-xl':
+                                                    'bg-gray-100 dark:bg-slate-900 border-light-border dark:border-gray-700 shadow-xl':
                                                         location.pathname === item.href,
                                                 },
                                             )}
@@ -93,7 +97,8 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
                 )}
 
                 {/* profile dropdown */}
-                <div className="flex-1 flex justify-end">
+                <div className="flex-1 flex justify-end items-center gap-3">
+                    <AppColorSwitcher />
                     <AppHeaderProfile />
                 </div>
             </div>

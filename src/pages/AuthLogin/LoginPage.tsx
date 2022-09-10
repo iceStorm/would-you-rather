@@ -57,7 +57,7 @@ export function LoginPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border border-gray-100 rounded-md overflow-hidden',
+                    'max-w-lg m-auto mt-10 border border-light dark:border-dark-border dark:bg-secondary-dark rounded-md overflow-hidden',
                     styles.loginForm,
                 )}
             >
@@ -67,7 +67,7 @@ export function LoginPage() {
                     {/* heading */}
                     <div className="flex items-center gap-3 mb-14 mt-3">
                         <AppLogo style={{ width: 60, height: 60 }} className="drop-shadow-lg" />
-                        <div className="flex flex-col">
+                        <div className="flex flex-col dark:text-gray-200">
                             <h1 className="text-3xl font-bold">Sign In.</h1>
                             <h5 className="">To express your desires.</h5>
                         </div>

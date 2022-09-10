@@ -17,7 +17,7 @@ export function AppHeaderProfile() {
             {currentUser && (
                 <Menu as="div" className="relative inline-block text-left">
                     <div>
-                        <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 pl-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                        <Menu.Button className="inline-flex w-full justify-center rounded-full border border-light-border dark:border-gray-700 bg-white dark:bg-slate-900 px-4 py-2 pl-3 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-none">
                             <div className="flex gap-3">
                                 <img src={''} alt="" className="w-5 h-5 rounded-md border border-gray-200" />
                                 <span className="font-medium">Hello, {currentUser.name}</span>
@@ -36,44 +36,20 @@ export function AppHeaderProfile() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 dark:divide-gray-700 rounded-md bg-white dark:bg-secondary-dark shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-600">
                             <div className="py-1">
                                 <Menu.Item>
                                     {({ active }) => (
                                         <a
                                             href="#"
                                             className={clsx(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                active
+                                                    ? 'bg-gray-100 dark:bg-gray-600 dark:bg-opacity-25 text-gray-900 dark:text-gray-400'
+                                                    : 'text-gray-700 dark:text-dark-text',
                                                 'block px-4 py-2 text-sm',
                                             )}
                                         >
-                                            Account settings
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href="#"
-                                            className={clsx(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                'block px-4 py-2 text-sm',
-                                            )}
-                                        >
-                                            Support
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href="#"
-                                            className={clsx(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                'block px-4 py-2 text-sm',
-                                            )}
-                                        >
-                                            License
+                                            My Profile
                                         </a>
                                     )}
                                 </Menu.Item>
@@ -85,7 +61,9 @@ export function AppHeaderProfile() {
                                         <button
                                             type="submit"
                                             className={clsx(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                active
+                                                    ? 'bg-gray-100 dark:bg-gray-600 dark:bg-opacity-25 text-gray-900 dark:text-gray-400'
+                                                    : 'text-gray-700 dark:text-dark-text',
                                                 'block w-full px-4 py-2 text-left text-sm',
                                             )}
                                             onClick={(e) => {

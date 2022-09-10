@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 export function AppProgressBar() {
     nprogress.configure({
-        // parent: 'main',
+        parent: 'main',
         // speed: 750,
         trickleSpeed: 540,
     })
