@@ -76,7 +76,7 @@ export function HomePage() {
                                 ))}
                             </Tab.List>
                             <Tab.Panels className="mt-2">
-                                {Object.values(categoriedQuestions).map((questions, idx) => (
+                                {Object.entries(categoriedQuestions).map(([category, questions], idx) => (
                                     <Tab.Panel
                                         key={idx}
                                         className={clsx(
@@ -85,6 +85,31 @@ export function HomePage() {
                                         )}
                                     >
                                         <ul>
+                                            {!questions.length && category === 'Unanswered' && (
+                                                <h1 className="text-sm p-3">
+                                                    <span>No new question for you to answer.&nbsp;</span>
+                                                    <Link to="/questions/add" className="app-link">
+                                                        Create your own!
+                                                    </Link>
+                                                </h1>
+                                            )}
+                                            {!questions.length && category === 'Answered' && (
+                                                <h1 className="text-sm p-3">
+                                                    <span>You have not answered any questions yet.&nbsp;</span>
+                                                    <Link to="/questions/add" className="app-link">
+                                                        Create your own!
+                                                    </Link>
+                                                </h1>
+                                            )}
+                                            {!questions.length && category === 'Mine' && (
+                                                <h1 className="text-sm p-3">
+                                                    <span>You have not created any questions yet.&nbsp;</span>
+                                                    <Link to="/questions/add" className="app-link">
+                                                        Create one!
+                                                    </Link>
+                                                </h1>
+                                            )}
+
                                             {questions.map((question) => (
                                                 <li
                                                     key={question.id}
