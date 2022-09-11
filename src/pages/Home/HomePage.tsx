@@ -35,8 +35,8 @@ export function HomePage() {
             Answered: [
                 ...allQuestions.filter(
                     (question) =>
-                        !question.optionOne.votes.includes(currentUser!.id) ||
-                        !question.optionTwo.votes.includes(currentUser!.id),
+                        question.optionOne.votes.includes(currentUser!.id) ||
+                        question.optionTwo.votes.includes(currentUser!.id),
                 ),
             ],
             Mine: [...allQuestions.filter((question) => question.author === currentUser!.id)],
