@@ -21,22 +21,24 @@ export function HomePage() {
 
     return (
         <>
-            {messageContent && (
-                <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
-                    {messageContent}
-                </MessageBar>
-            )}
+            <div className="container max-w-lg">
+                {messageContent && (
+                    <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
+                        {messageContent}
+                    </MessageBar>
+                )}
 
-            {!fetchingQuestions && allQuestions.length === 0 && <h1 className="container">No questions found.</h1>}
-            {!fetchingQuestions && allQuestions.length > 0 && (
-                <div className="container">
-                    {allQuestions.map((question) => (
-                        <h1 key={question.id}>
-                            <Link to={`/questions/${question.id}`}>{question.author}</Link>
-                        </h1>
-                    ))}
-                </div>
-            )}
+                {!fetchingQuestions && allQuestions.length === 0 && <h1 className="container">No questions found.</h1>}
+                {!fetchingQuestions && allQuestions.length > 0 && (
+                    <div className="container">
+                        {allQuestions.map((question) => (
+                            <h1 key={question.id}>
+                                <Link to={`/questions/${question.id}`}>{question.author}</Link>
+                            </h1>
+                        ))}
+                    </div>
+                )}
+            </div>
         </>
     )
 }

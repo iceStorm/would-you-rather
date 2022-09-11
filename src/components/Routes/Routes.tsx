@@ -37,7 +37,8 @@ export function AppRoutes() {
                     <Route path="leaderboard" element={<PrivateRoute element={<LeaderBoardPage />} />} />
 
                     {/* Fallback */}
-                    <Route path="*" element={<NotFoundPage />} />
+                    <Route path="404" element={<NotFoundPage />} />
+                    <Route path="*" element={<Navigate to="404" />} />
                 </Route>
             </Routes>
         </BrowserRouter>

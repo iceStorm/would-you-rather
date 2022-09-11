@@ -30,8 +30,6 @@ export class AuthServer {
     }
 
     static async login(username: string, password: string) {
-        await ServerUtils.sleepRandom({ minimum: 750 })
-
         const foundUserById = UsersServer.users.find((user) => user.id === username)
         if (!foundUserById) {
             throw new Error('Username not found')
@@ -43,7 +41,6 @@ export class AuthServer {
         }
 
         const authToken = await JwtService.sign({ userId: foundUserById.id })
-        await ServerUtils.sleepRandom({ minimum: 750 })
         return authToken
     }
 

@@ -82,7 +82,7 @@ export function QuestionDetailPage() {
             .catch((error) => {
                 console.error(error)
                 if (error.startsWith('Could not find a question with id')) {
-                    // navigate('/*')
+                    navigate('/404')
                 }
             })
     }, [])
