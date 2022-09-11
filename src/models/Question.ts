@@ -1,12 +1,13 @@
 import { User } from './User'
 
 export type AnswerOptionKey = 'optionOne' | 'optionTwo'
+export type AnswerOptionValue = {
+    votes: User['id'][]
+    text: string
+}
 
 export type AnswerOption = {
-    [key in AnswerOptionKey]: {
-        votes: User['id'][]
-        text: string
-    }
+    [key in AnswerOptionKey]: AnswerOptionValue
 }
 
 export type Question = AnswerOption & {

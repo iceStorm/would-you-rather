@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { MessageBar, ProgressIndicator } from '@fluentui/react'
+import { MessageBar } from '@fluentui/react'
 import clsx from 'clsx'
 
+import { AppLoadingCircle } from '../../components/AppLoadingCircle'
 import { AppInputField } from '../../components/AppInputField'
 import { AppLogo } from '../../components/AppLogo'
 import { useAppMessage } from '../../hooks/useAppMessage'
@@ -11,9 +12,9 @@ import { LoginParams } from '../../models/LoginParams'
 import { RegisterParams } from '../../models/RegisterParams'
 import { useAppDispatch } from '../../store'
 import { login } from '../../store/auth/auth.thunks'
-import { selectAuthState } from '../../store/auth/auth.selectors'
-import styles from './LoginPage.module.css'
 import { useAppSelector } from '../../store/hooks'
+
+import styles from './LoginPage.module.css'
 
 export function LoginPage() {
     const location = useLocation()
@@ -45,7 +46,7 @@ export function LoginPage() {
         dispatch(login(data))
             .unwrap()
             .then(() => {
-                navigate((location.state as any).from || '/')
+                navigate((location.state as any)?.from || '/')
             })
             .catch((error) => {
                 showMessage('error', error)
@@ -57,12 +58,10 @@ export function LoginPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border border-light dark:border-dark-border dark:bg-secondary-dark rounded-md overflow-hidden',
+                    'max-w-lg m-auto mt-10 border dark:border-dark-border dark:bg-secondary-dark rounded-md overflow-hidden',
                     styles.loginForm,
                 )}
             >
-                <ProgressIndicator progressHidden={!isSigningIn} barHeight={3} className="-mt-2" />
-
                 <div className="form-wrapper p-5 px-7">
                     {/* heading */}
                     <div className="flex items-center gap-3 mb-14 mt-3">
@@ -113,7 +112,8 @@ export function LoginPage() {
                         </div>
 
                         <button className="app-button mt-5" disabled={isSigningIn}>
-                            Continue
+                            <AppLoadingCircle showing={isSigningIn} />
+                            <span>Continue</span>
                         </button>
                     </div>
                 </div>

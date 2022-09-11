@@ -6,6 +6,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { logOut, setCurrentUser } from '../../store/auth/auth.slice'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../store'
+import { AppUserAvatar } from '../AppUserAvatar'
 
 export function AppHeaderProfile() {
     const currentUser = selectCurrentUser()
@@ -17,9 +18,12 @@ export function AppHeaderProfile() {
             {currentUser && (
                 <Menu as="div" className="relative inline-block text-left">
                     <div>
-                        <Menu.Button className="inline-flex w-full justify-center rounded-full border border-light-border dark:border-gray-700 bg-white dark:bg-slate-900 px-4 py-2 pl-3 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-none">
-                            <div className="flex gap-3">
-                                <img src={''} alt="" className="w-5 h-5 rounded-md border border-gray-200" />
+                        <Menu.Button className="inline-flex items-center w-full justify-center rounded-full border border-light-border dark:border-gray-700 bg-white dark:bg-slate-900 px-4 py-1 pl-1 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-none">
+                            <div className="flex items-center gap-3">
+                                <AppUserAvatar
+                                    avatarName={currentUser.avatarURL}
+                                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-none"
+                                />
                                 <span className="font-medium dark:text-gray-200">Hello, {currentUser.name}</span>
                             </div>
 

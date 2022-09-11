@@ -1,6 +1,7 @@
 .app-button {
     @apply bg-primary dark:bg-secondary rounded-md p-3 font-medium
         transition-all shadow-md text-white
+        flex justify-center items-center gap-1
         hover:bg-secondary dark:hover:bg-opacity-75;
 }
 

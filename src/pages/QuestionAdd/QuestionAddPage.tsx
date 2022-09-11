@@ -1,13 +1,23 @@
+import { MessageBar } from '@fluentui/react'
 import clsx from 'clsx'
+import { useState } from 'react'
 import { UseControllerProps, useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
 import { AppInputField } from '../../components/AppInputField'
+import { AppLoadingCircle } from '../../components/AppLoadingCircle'
+import { useAppMessage } from '../../hooks/useAppMessage'
 import { AnswerOptionKey } from '../../models/Question'
+import { useAppDispatch } from '../../store/hooks'
+import { submitQuestion } from '../../store/questions/questions.thunks'
 
 import styles from './QuestionAddPage.module.scss'
 
 export function QuestionAddPage() {
-    const { handleSubmit, control } = useForm<{ [key in AnswerOptionKey]: string }>()
+    const dispatch = useAppDispatch()
+    const { handleSubmit, control, setValue } = useForm<{ [key in AnswerOptionKey]: string }>()
+    const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const optionRule: UseControllerProps['rules'] = {
         required: {
@@ -21,7 +31,30 @@ export function QuestionAddPage() {
     }
 
     const onFormSubmit = handleSubmit((data) => {
-        console.log(data)
+        setIsSubmitting(true)
+        clearMessage()
+
+        dispatch(submitQuestion(data))
+            .unwrap()
+            .then((question) => {
+                showMessage(
+                    'success',
+                    <>
+                        <span>Your question has been submitted successfully.</span>
+                        <Link to={`/questions/${question?.id}`} className="app-link">
+                            View now
+                        </Link>
+                    </>,
+                )
+                setValue('optionOne', '')
+                setValue('optionTwo', '')
+            })
+            .catch((error) => {
+                showMessage('error', error)
+            })
+            .finally(() => {
+                setIsSubmitting(false)
+            })
     })
 
     return (
@@ -38,11 +71,12 @@ export function QuestionAddPage() {
                     <h2>To see how the community reacts.</h2>
                 </div>
 
-                <div className="flex flex-col mt-10">
+                <div className="flex flex-col mt-10 mb-5">
                     <h1 className={clsx('text-2xl font-bold dark:text-gray-200 mb-5')}>Would you rather ...</h1>
 
                     <div className="flex flex-col gap-3">
                         <AppInputField
+                            disabled={isSubmitting}
                             control={control}
                             name="optionOne"
                             placeholder="Enter option one..."
@@ -54,6 +88,7 @@ export function QuestionAddPage() {
                             <span className="bg-slate-300 dark:bg-slate-600"></span>
                         </div>
                         <AppInputField
+                            disabled={isSubmitting}
                             control={control}
                             name="optionTwo"
                             placeholder="Enter option two..."
@@ -62,7 +97,16 @@ export function QuestionAddPage() {
                     </div>
                 </div>
 
-                <button className="app-button w-full mt-10">Submit</button>
+                {messageContent && (
+                    <MessageBar messageBarType={messageType} onDismiss={(e) => clearMessage()}>
+                        {messageContent}
+                    </MessageBar>
+                )}
+
+                <button className={clsx('app-button w-full mt-10')} disabled={isSubmitting}>
+                    <AppLoadingCircle showing={isSubmitting} />
+                    <span>Submit</span>
+                </button>
             </form>
         </div>
     )

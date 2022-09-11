@@ -8,11 +8,12 @@ module.exports = {
             colors: {
                 primary: '#7FB77E',
                 secondary: '#42855B',
+                third: '#90B77D',
                 brown: '#AC4425',
                 light: '#D2D79F',
                 lighter: '#90B77D',
 
-                light: colors.white,
+                // light: colors.white,
                 dark: colors.slate[900],
                 'secondary-dark': colors.slate[800],
 

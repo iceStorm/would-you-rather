@@ -1,3 +1,4 @@
+import { AnswerOptionKey } from '../models/Question'
 import { User, UserRecords } from '../models/User'
 import { AuthServer } from './auth.server'
 import { getUsersFromLocalStorage, saveUsersToLocalStorage } from './_DATA'
@@ -29,5 +30,28 @@ export class UsersServer {
     static async getAllUsers(token: string) {
         await AuthServer.verifyToken(token)
         return this.users
+    }
+
+    static async getUseById(token: string, userId: string) {
+        await AuthServer.verifyToken(token)
+
+        const foundUser = this.users.find((user) => user.id === userId)
+        if (!foundUser) {
+            throw new Error(`User ${userId} does not exist`)
+        }
+
+        return foundUser
+    }
+
+    static addQuestion(userId: string, questionId: string) {
+        const users = this.usersWithKey
+        users[userId].questions.push(questionId)
+        this.usersWithKey = users
+    }
+
+    static addAnswer(userId: string, questionId: string, optionKey: AnswerOptionKey) {
+        const users = this.usersWithKey
+        users[userId].answers[questionId] = optionKey
+        this.usersWithKey = users
     }
 }

@@ -2,7 +2,7 @@ import { MessageBarType } from '@fluentui/react'
 import { useState } from 'react'
 
 export function useAppMessage() {
-    const [_message, setMessage] = useState('')
+    const [_message, setMessage] = useState<string | JSX.Element>('')
     const [_type, setMessageType] = useState(MessageBarType.info)
 
     return {
@@ -11,7 +11,7 @@ export function useAppMessage() {
         clearMessage() {
             setMessage('')
         },
-        showMessage(type: keyof typeof MessageBarType, content: string) {
+        showMessage(type: keyof typeof MessageBarType, content: string | JSX.Element) {
             setMessageType(MessageBarType[type])
             setMessage(content)
         },

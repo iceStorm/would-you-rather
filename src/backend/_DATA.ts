@@ -154,22 +154,6 @@ export function getQuestionsFromLocalStorage(): QuestionRecords {
     return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUESTIONS) || '{}')
 }
 
-// function formatQuestion({ optionOneText, optionTwoText, author }) {
-//     return {
-//         id: generateUID(),
-//         timestamp: Date.now(),
-//         author,
-//         optionOne: {
-//             votes: [],
-//             text: optionOneText,
-//         },
-//         optionTwo: {
-//             votes: [],
-//             text: optionTwoText,
-//         },
-//     }
-// }
-
 // export function _saveQuestion(question) {
 //     return new Promise((res, rej) => {
 //         const authedUser = question.author

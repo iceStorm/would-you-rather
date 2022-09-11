@@ -1,5 +1,6 @@
 import { MessageBar, ProgressIndicator } from '@fluentui/react'
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useAppMessage } from '../../hooks/useAppMessage'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -30,7 +31,9 @@ export function HomePage() {
             {!fetchingQuestions && allQuestions.length > 0 && (
                 <div className="container">
                     {allQuestions.map((question) => (
-                        <h1 key={question.id}>{question.author}</h1>
+                        <h1 key={question.id}>
+                            <Link to={`/questions/${question.id}`}>{question.author}</Link>
+                        </h1>
                     ))}
                 </div>
             )}

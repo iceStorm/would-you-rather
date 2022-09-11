@@ -1,9 +1,10 @@
-import { MessageBar, ProgressIndicator } from '@fluentui/react'
+import { MessageBar } from '@fluentui/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 
+import { AppLoadingCircle } from '../../components/AppLoadingCircle'
 import { AppInputField } from '../../components/AppInputField'
 import { AppLogo } from '../../components/AppLogo'
 import { useAppMessage } from '../../hooks/useAppMessage'
@@ -53,8 +54,6 @@ export function RegisterPage() {
                     styles.registerForm,
                 )}
             >
-                <ProgressIndicator progressHidden={!isSubmitting} barHeight={3} className="-mt-2" />
-
                 <div className="form-wrapper p-5 px-7">
                     {/* heading */}
                     <div className="flex items-center gap-3 mb-14 mt-3">
@@ -115,7 +114,8 @@ export function RegisterPage() {
                         </div>
 
                         <button className="app-button mt-5" disabled={isSubmitting}>
-                            Register
+                            <AppLoadingCircle showing={isSubmitting} />
+                            <span> Register</span>
                         </button>
                     </div>
                 </div>

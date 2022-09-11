@@ -3,7 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AuthService } from './auth.service'
 import { LoginParams } from '../../models/LoginParams'
 import { RegisterParams } from '../../models/RegisterParams'
-import { authSlice, setCurrentUser } from './auth.slice'
 
 // delegating main login to AuthService (frontend), these thunks should only handle end results
 export const login = createAsyncThunk('auth/login', async (credentials: LoginParams, { rejectWithValue }) => {

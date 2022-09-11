@@ -9,3 +9,12 @@ export const fetchAllUsers = createAsyncThunk('users/fetchAll', async (undefined
         return rejectWithValue(error.message)
     }
 })
+
+export const getUserById = createAsyncThunk('users/getUseById', async (userId: string, { rejectWithValue }) => {
+    try {
+        const user = await UsersService.getUseById(userId)
+        return user
+    } catch (error: any) {
+        return rejectWithValue(error.message)
+    }
+})
