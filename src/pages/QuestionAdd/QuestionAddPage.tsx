@@ -62,7 +62,7 @@ export function QuestionAddPage() {
             <form
                 onSubmit={onFormSubmit}
                 className={clsx(
-                    'mt-10 w-full p-5 px-7 border dark:border-dark-border dark:bg-secondary-dark',
+                    'mt-5 w-full p-5 px-7 border dark:border-dark-border dark:bg-secondary-dark',
                     'rounded-md',
                 )}
             >

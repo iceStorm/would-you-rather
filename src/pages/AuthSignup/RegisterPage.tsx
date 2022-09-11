@@ -48,7 +48,7 @@ export function RegisterPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border border-light-border dark:border-dark-border',
+                    'max-w-lg m-auto mt-5 border border-light-border dark:border-dark-border',
                     'rounded-md overflow-hidden',
                     'dark:bg-secondary-dark',
                     styles.registerForm,

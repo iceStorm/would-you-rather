@@ -58,7 +58,7 @@ export function LoginPage() {
             <form
                 onSubmit={onSubmit}
                 className={clsx(
-                    'max-w-lg m-auto mt-10 border dark:border-dark-border dark:bg-secondary-dark rounded-md overflow-hidden',
+                    'max-w-lg m-auto mt-5 border dark:border-dark-border dark:bg-secondary-dark rounded-md overflow-hidden',
                     styles.loginForm,
                 )}
             >
