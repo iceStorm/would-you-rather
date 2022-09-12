@@ -12,6 +12,8 @@ import { getUserById } from '../../store/users/users.thunks'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
 import { AppLoadingCircle } from '../../components/AppLoadingCircle'
 import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
+import { User } from '../../models/User'
+import { AppUserAvatar } from '../../components/AppUserAvatar'
 
 type OptionKeyValue = {
     key: AnswerOptionKey
@@ -26,7 +28,7 @@ export function QuestionDetailPage() {
     const [question, setQuestion] = useState<Question>()
     const [selected, setSelected] = useState('')
     const [options, setOptions] = useState<OptionKeyValue[]>([])
-    const [questionAuthorName, setQuestionAuthorName] = useState('')
+    const [questionAuthor, setQuestionAuthor] = useState<User>()
     const [isCurrentUserSelected, setIsCurrentUserSelected] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [totalVoteCounts, setTotalVoteCounts] = useState(0)
@@ -46,7 +48,7 @@ export function QuestionDetailPage() {
                 dispatch(getUserById(question.author))
                     .unwrap()
                     .then((author) => {
-                        setQuestionAuthorName(author.name)
+                        setQuestionAuthor(author)
 
                         setQuestion(question)
                         setOptions([
@@ -124,10 +126,14 @@ export function QuestionDetailPage() {
                 <div className={clsx('border dark:border-dark-border rounded-md', 'dark:bg-secondary-dark')}>
                     <div className={clsx('p-3 px-5 text-center border-b dark:border-dark-border')}>
                         <div className="flex items-center justify-between">
-                            <div>
-                                <span className="font-bold dark:text-gray-200">{questionAuthorName}</span>{' '}
-                                {!isCurrentUserSelected && <span> asks</span>}
-                                {isCurrentUserSelected && <span> asked </span>}
+                            <div className="flex items-center gap-1">
+                                <AppUserAvatar avatarName={questionAuthor?.avatarURL} className="w-5" />
+
+                                <div>
+                                    <span className="font-bold dark:text-gray-200">{questionAuthor?.name}</span>{' '}
+                                    {!isCurrentUserSelected && <span> asks</span>}
+                                    {isCurrentUserSelected && <span> asked </span>}
+                                </div>
                             </div>
 
                             <div>

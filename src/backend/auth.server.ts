@@ -20,7 +20,7 @@ export class AuthServer {
                 throw USER_NO_LONGER_EXISTS(userId as string)
             }
 
-            await ServerUtils.sleepRandom({})
+            await ServerUtils.sleepRandom({ maximum: 750 })
             return foundUser
         } catch (error: any) {
             if (error.message === '"exp" claim timestamp check failed') {

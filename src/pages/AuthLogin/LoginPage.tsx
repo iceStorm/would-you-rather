@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { MessageBar } from '@fluentui/react'
+import { MessageBar, Spinner } from '@fluentui/react'
 import clsx from 'clsx'
 
 import { AppLoadingCircle } from '../../components/AppLoadingCircle'
@@ -11,21 +11,33 @@ import { useAppMessage } from '../../hooks/useAppMessage'
 import { LoginParams } from '../../models/LoginParams'
 import { RegisterParams } from '../../models/RegisterParams'
 import { useAppDispatch } from '../../store'
-import { login } from '../../store/auth/auth.thunks'
+import { login, verifyToken } from '../../store/auth/auth.thunks'
 import { useAppSelector } from '../../store/hooks'
 
 import styles from './LoginPage.module.css'
+import { AuthService } from '../../store/auth/auth.service'
 
 export function LoginPage() {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-    const { isSigningIn } = useAppSelector((state) => state.auth)
+    const { isSigningIn, isVerifyingToken } = useAppSelector((state) => state.auth)
     const { control, handleSubmit, setValue } = useForm<LoginParams>()
     const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
 
     useEffect(() => {
+        if (AuthService.token) {
+            dispatch(verifyToken())
+                .then(() => {
+                    // the user is stills logged in -> redirect back to home page
+                    navigate('/')
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        }
+
         console.log('location:', location.state)
 
         // auto fill the login form fields if was sent from registe page
@@ -53,7 +65,9 @@ export function LoginPage() {
             })
     })
 
-    return (
+    return isVerifyingToken ? (
+        <Spinner label="Checking authentication..." />
+    ) : (
         <div className="container pb-10">
             <form
                 onSubmit={onSubmit}

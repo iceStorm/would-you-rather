@@ -16,6 +16,7 @@ import styles from './QuestionAddPage.module.scss'
 
 export function QuestionAddPage() {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const { handleSubmit, control, setValue } = useForm<{ [key in AnswerOptionKey]: string }>()
     const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -49,6 +50,7 @@ export function QuestionAddPage() {
                 )
                 setValue('optionOne', '')
                 setValue('optionTwo', '')
+                navigate('/')
             })
             .catch((error) => {
                 useAuthErrorHandler(error)
