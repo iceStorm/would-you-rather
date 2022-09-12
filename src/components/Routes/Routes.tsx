@@ -10,11 +10,12 @@ import { RegisterPage } from '../../pages/AuthSignup'
 import { LeaderBoardPage } from '../../pages/LeaderBoard'
 import { QuestionAddPage } from '../../pages/QuestionAdd'
 import { QuestionDetailPage } from '../../pages/QuestionDetail'
-import { QuestionList } from '../../pages/QuestionList'
+import { AppNavigatorSetter } from './Navigator'
 
 export function AppRoutes() {
     return (
         <BrowserRouter>
+            <AppNavigatorSetter />
             <Routes>
                 <Route path="/" element={<App />}>
                     {/* Home */}

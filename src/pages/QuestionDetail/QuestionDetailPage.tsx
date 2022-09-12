@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { RadioGroup } from '@headlessui/react'
 
-import { AnswerOption, AnswerOptionKey, AnswerOptionValue, Question } from '../../models/Question'
+import { AnswerOptionKey, AnswerOptionValue, Question } from '../../models/Question'
 import { useAppDispatch } from '../../store'
 import { getQuestionById, submitAnswer } from '../../store/questions/questions.thunks'
 import { useAppMessage } from '../../hooks/useAppMessage'
-import { MessageBar, ProgressIndicator, Spinner } from '@fluentui/react'
+import { MessageBar, Spinner } from '@fluentui/react'
 import { getUserById } from '../../store/users/users.thunks'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
 import { AppLoadingCircle } from '../../components/AppLoadingCircle'
+import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
 
 type OptionKeyValue = {
     key: AnswerOptionKey
@@ -71,18 +72,19 @@ export function QuestionDetailPage() {
                                 ? question.optionOne.text
                                 : question.optionTwo.text
 
+                            // pre-populate the selected option of the current user
                             setSelected(currentUserSelectedOption)
                         }
-
-                        if (question.optionTwo.votes.includes(currentUser!.id)) {
-                        }
                     })
-                    .catch((error) => {})
+                    .catch((error) => {
+                        useAuthErrorHandler(error)
+                    })
             })
             .catch((error) => {
-                console.error(error)
                 if (error.startsWith('Could not find a question with id')) {
                     navigate('/404')
+                } else {
+                    useAuthErrorHandler(error)
                 }
             })
     }, [])
@@ -106,8 +108,8 @@ export function QuestionDetailPage() {
                 navigate(0)
             })
             .catch((error) => {
+                useAuthErrorHandler(error)
                 showMessage('error', error)
-                console.error(error)
             })
             .finally(() => {
                 setIsSubmitting(false)

@@ -1,0 +1,6 @@
+export const TOKEN_EXPIRED = () => new Error('Your login session has expired. Please log in again')
+export const TOKEN_TAMPERED = () => new Error('Authentication token was tampered. Please log in again')
+export const USER_NO_LONGER_EXISTS = (userId: string) => new Error(`User ${userId} no longer exist`)
+export const USER_NOT_FOUND = () => new Error('Username not found')
+export const PASSWORD_DOES_NOT_MATCH = () => new Error('Password does not match')
+export const USERNAME_ALREADY_EXISTS = () => new Error('Username already exists')

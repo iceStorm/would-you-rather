@@ -1,12 +1,13 @@
-import { MessageBar } from '@fluentui/react'
-import clsx from 'clsx'
 import { useState } from 'react'
 import { UseControllerProps, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { MessageBar } from '@fluentui/react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 
 import { AppInputField } from '../../components/AppInputField'
 import { AppLoadingCircle } from '../../components/AppLoadingCircle'
 import { useAppMessage } from '../../hooks/useAppMessage'
+import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
 import { AnswerOptionKey } from '../../models/Question'
 import { useAppDispatch } from '../../store/hooks'
 import { submitQuestion } from '../../store/questions/questions.thunks'
@@ -50,6 +51,7 @@ export function QuestionAddPage() {
                 setValue('optionTwo', '')
             })
             .catch((error) => {
+                useAuthErrorHandler(error)
                 showMessage('error', error)
             })
             .finally(() => {

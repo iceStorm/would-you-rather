@@ -1,28 +1,34 @@
-import { User, UserRecords } from '../models/User'
+import {
+    PASSWORD_DOES_NOT_MATCH,
+    TOKEN_EXPIRED,
+    TOKEN_TAMPERED,
+    USERNAME_ALREADY_EXISTS,
+    USER_NOT_FOUND,
+    USER_NO_LONGER_EXISTS,
+} from '../constants/errors/auth.errors'
 import { JwtService } from './jwt.service'
 import { UsersServer } from './users.server'
 import { ServerUtils } from './utils.server'
-import { getUsersFromLocalStorage, saveUsersToLocalStorage } from './_DATA'
 
 export class AuthServer {
     static async verifyToken(token: string) {
         try {
-            const { userId } = (await JwtService.verify(token)).payload
+            const { userId } = await (await JwtService.verify(token)).payload
             const foundUser = UsersServer.users.find((user) => user.id === userId)
 
             if (!foundUser) {
-                throw new Error(`User ${userId} no longer exist`)
+                throw USER_NO_LONGER_EXISTS(userId as string)
             }
 
             await ServerUtils.sleepRandom({})
             return foundUser
         } catch (error: any) {
             if (error.message === '"exp" claim timestamp check failed') {
-                throw new Error('Your login session has expired. Please log in again')
+                throw TOKEN_EXPIRED()
             }
 
             if (error.message === 'JWS Protected Header is invalid') {
-                throw new Error('Authentication token was tampered. Please log in again')
+                throw TOKEN_TAMPERED()
             }
 
             throw error
@@ -32,12 +38,12 @@ export class AuthServer {
     static async login(username: string, password: string) {
         const foundUserById = UsersServer.users.find((user) => user.id === username)
         if (!foundUserById) {
-            throw new Error('Username not found')
+            throw USER_NOT_FOUND()
         }
 
         // check password
         if (!(await ServerUtils.checkPassword(password, foundUserById.password))) {
-            throw new Error('Password does not match')
+            throw PASSWORD_DOES_NOT_MATCH()
         }
 
         const authToken = await JwtService.sign({ userId: foundUserById.id })
@@ -48,7 +54,7 @@ export class AuthServer {
         // check username duplication
         const foundUser = UsersServer.users.find((user) => user.id === username)
         if (foundUser) {
-            throw new Error('Username already exists')
+            throw USERNAME_ALREADY_EXISTS()
         }
 
         // save the new user to DB

@@ -21,8 +21,10 @@ export function PrivateRoute({ element }: PrivateRouteProps) {
     const authToken = AuthService.token
 
     useEffect(() => {
+        const fromRoute = `${location.pathname}${location.search}`
+
         if (!currentUser && !authToken) {
-            return navigate('/login', { state: { from: `${location.pathname}${location.search}` } })
+            return navigate('/login', { state: { from: fromRoute } })
         }
 
         dispatch(verifyToken())
@@ -35,7 +37,7 @@ export function PrivateRoute({ element }: PrivateRouteProps) {
             .catch((error) => {
                 // clear token in local storage
                 AuthService.token = ''
-                navigate('/login', { state: { error: error } })
+                navigate('/login', { state: { error: error, from: fromRoute } })
             })
     }, [location.key])
 

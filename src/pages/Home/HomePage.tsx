@@ -1,13 +1,14 @@
 import { MessageBar, Spinner } from '@fluentui/react'
 import { useEffect, useMemo } from 'react'
 import { Tab } from '@headlessui/react'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 
 import { useAppMessage } from '../../hooks/useAppMessage'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchAllQuestions } from '../../store/questions/questions.thunks'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
-import { Link } from 'react-router-dom'
+import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
 
 export function HomePage() {
     const dispatch = useAppDispatch()
@@ -19,6 +20,7 @@ export function HomePage() {
         dispatch(fetchAllQuestions())
             .unwrap()
             .catch((error) => {
+                useAuthErrorHandler(error)
                 showMessage('error', error)
             })
     }, [])
