@@ -30,3 +30,11 @@ export const register = createAsyncThunk('auth/register', async (credentials: Re
         return rejectWithValue(error.message)
     }
 })
+
+export const updateAvatar = createAsyncThunk('auth/updateAvatar', async (avatarBase64: string, { rejectWithValue }) => {
+    try {
+        await AuthService.updateAvatar(avatarBase64)
+    } catch (error: any) {
+        return rejectWithValue(error.message)
+    }
+})

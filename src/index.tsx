@@ -6,7 +6,9 @@ import { initializeIcons } from '@fluentui/react/lib/Icons'
 import { initializeDatabase } from './backend/_DATA'
 import { AppRoutes } from './components/Routes'
 import { store } from './store'
+
 import './index.css'
+import 'tippy.js/dist/tippy.css'; // optional
 
 initializeIcons()
 initializeDatabase()

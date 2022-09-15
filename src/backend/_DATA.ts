@@ -5,7 +5,7 @@ export const INITIAL_USERS = {
     sarahedo: {
         id: 'sarahedo',
         name: 'Sarah Edo',
-        password: '123456',
+        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC', // decrypted: 123456
         avatarURL: '',
         answers: {
             '8xf0y6ziyjabvozdd253nd': 'optionOne',
@@ -18,7 +18,7 @@ export const INITIAL_USERS = {
     tylermcginnis: {
         id: 'tylermcginnis',
         name: 'Tyler McGinnis',
-        password: '123456',
+        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC', // decrypted: 123456
         avatarURL: '',
         answers: {
             vthrdm985a262al8qx3do: 'optionOne',
@@ -29,7 +29,7 @@ export const INITIAL_USERS = {
     johndoe: {
         id: 'johndoe',
         name: 'John Doe',
-        password: '123456',
+        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC', // decrypted: 123456
         avatarURL: '',
         answers: {
             xj352vofupe1dqz9emx13r: 'optionOne',

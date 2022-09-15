@@ -22,7 +22,7 @@ export function AppHeaderProfile() {
                             <div className="flex items-center gap-3">
                                 <AppUserAvatar
                                     avatarName={currentUser.avatarURL}
-                                    className="w-7 h-7 rounded-full border border-gray-200 dark:border-none"
+                                    className="w-7 h-7 p-1 rounded-full border border-gray-200 dark:border-none"
                                 />
                                 <span className="font-medium dark:text-gray-200">Hello, {currentUser.name}</span>
                             </div>

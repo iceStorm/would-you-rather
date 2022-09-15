@@ -2,7 +2,6 @@ import { MessageBar, Spinner } from '@fluentui/react'
 import { useEffect, useMemo, useState } from 'react'
 import { Tab } from '@headlessui/react'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 import clsx from 'clsx'
 
 import { useAppMessage } from '../../hooks/useAppMessage'
@@ -12,6 +11,7 @@ import { fetchAllUsers } from '../../store/users/users.thunks'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
 import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
 import { AppUserAvatar } from '../../components/AppUserAvatar'
+import { getTimeOffsetString } from '../../utils/TimeUtils'
 
 export function HomePage() {
     const dispatch = useAppDispatch()
@@ -57,10 +57,6 @@ export function HomePage() {
         return { Unanswered, Answered, Created }
     }, [allQuestions, allUsers])
 
-    const getTimeOffset = (timestamp: number): string => {
-        return moment(timestamp).fromNow()
-    }
-
     return (
         <>
             <div className="container max-w-lg mt-5">
@@ -80,7 +76,6 @@ export function HomePage() {
                                 {Object.keys(categoriedQuestions).map((category) => (
                                     <Tab
                                         key={category}
-                                        onClick={(e: any) => console.log('e')}
                                         className={({ selected }) =>
                                             clsx(
                                                 'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-primary',
@@ -121,7 +116,7 @@ export function HomePage() {
                                                     </Link>
                                                 </h1>
                                             )}
-                                            {!questions.length && category === 'Mine' && (
+                                            {!questions.length && category === 'Created' && (
                                                 <h1 className="text-sm p-3">
                                                     <span>You have not created any questions yet.&nbsp;</span>
                                                     <Link to="/questions/add" className="app-link">
@@ -153,7 +148,7 @@ export function HomePage() {
                                                             {allUsers.find((user) => user.id === question.author)?.name}
                                                         </li>
                                                         <li>&middot;</li>
-                                                        <li>{getTimeOffset(question.timestamp)}</li>
+                                                        <li>{getTimeOffsetString(question.timestamp)}</li>
                                                         <li>&middot;</li>
                                                         <li>
                                                             {question.optionOne.votes.length +

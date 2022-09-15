@@ -24,10 +24,14 @@ export class AuthService {
     }
 
     static async verifyToken() {
-       return  await AuthServer.verifyToken(this.token)
+        return await AuthServer.verifyToken(this.token)
     }
 
     static async register({ username, password, fullName }: RegisterParams) {
         await AuthServer.register(username, password, fullName)
+    }
+
+    static updateAvatar(avatarBase64: string) {
+        return AuthServer.updateAvatar(this.token, avatarBase64)
     }
 }

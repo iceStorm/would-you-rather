@@ -14,6 +14,7 @@ import { AppLoadingCircle } from '../../components/AppLoadingCircle'
 import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
 import { User } from '../../models/User'
 import { AppUserAvatar } from '../../components/AppUserAvatar'
+import { getTimeOffsetString } from '../../utils/TimeUtils'
 
 type OptionKeyValue = {
     key: AnswerOptionKey
@@ -127,12 +128,13 @@ export function QuestionDetailPage() {
                     <div className={clsx('p-3 px-5 text-center border-b dark:border-dark-border')}>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-1">
-                                <AppUserAvatar avatarName={questionAuthor?.avatarURL} className="w-5" />
+                                <AppUserAvatar avatarName={questionAuthor?.avatarURL} className="w-7" />
 
                                 <div>
                                     <span className="font-bold dark:text-gray-200">{questionAuthor?.name}</span>{' '}
-                                    {!isCurrentUserSelected && <span> asks</span>}
+                                    {!isCurrentUserSelected && <span> asks </span>}
                                     {isCurrentUserSelected && <span> asked </span>}
+                                    <span>{getTimeOffsetString(question.timestamp)}</span>
                                 </div>
                             </div>
 

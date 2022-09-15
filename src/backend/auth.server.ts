@@ -6,6 +6,7 @@ import {
     USER_NOT_FOUND,
     USER_NO_LONGER_EXISTS,
 } from '../constants/errors/auth.errors'
+
 import { JwtService } from './jwt.service'
 import { UsersServer } from './users.server'
 import { ServerUtils } from './utils.server'
@@ -68,5 +69,13 @@ export class AuthServer {
         })
 
         await ServerUtils.sleepRandom({ minimum: 500, maximum: 1275 })
+    }
+
+    static async updateAvatar(token: string, avatarBase64: string) {
+        const user = await this.verifyToken(token)
+
+        const users = UsersServer.usersWithKey
+        users[user.id].avatarURL = avatarBase64
+        UsersServer.usersWithKey = users
     }
 }
