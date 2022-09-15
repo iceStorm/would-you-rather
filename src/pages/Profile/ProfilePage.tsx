@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Tippy from '@tippyjs/react'
 
 import { AppUserAvatar } from '../../components/AppUserAvatar'
@@ -5,9 +6,7 @@ import { selectAuthState } from '../../store/auth/auth.selectors'
 
 import askIcon from '../../assets/icons8-get-help-96.png'
 import answerIcon from '../../assets/icons8-solve-96.png'
-import nameIcon from '../../assets/icons8-username-96.png'
 import imageIcon from '../../assets/icons8-web-camera-96.png'
-import { useState } from 'react'
 import { AppAvatarPickerDialog } from '../../components/AppAvatarPickerDialog'
 
 export function ProfilePage() {
@@ -15,7 +14,6 @@ export function ProfilePage() {
     const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false)
 
     const handleChangeAvatarButtonClick = () => {
-        // console.log('click')
         setIsAvatarPickerOpen(true)
     }
 

@@ -1,4 +1,6 @@
 import { Fragment, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { Dialog, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import _ from 'lodash'
@@ -9,15 +11,8 @@ import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler'
 import { AppLoadingCircle } from '../AppLoadingCircle'
 import { setCurrentUser } from '../../store/auth/auth.slice'
 import { selectCurrentUser } from '../../store/auth/auth.selectors'
-import { useNavigate } from 'react-router-dom'
 
-const galleryAvatars = {
-    snowflake: 'snowflake.png',
-    sun: 'sun.png',
-    moon: 'moon.png',
-    mountain: 'mountain.png',
-    cat: 'cat.png',
-}
+import galleryAvatars from '../../assets/gallery-avatars.json'
 type galleryAvatarType = keyof typeof galleryAvatars
 
 type AppAvatarPickerDialogProps = {
@@ -106,7 +101,7 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
                                     </div>
 
                                     {/* body */}
-                                    <div className="images-grid mt-10 mb-20 flex flex-wrap gap-5">
+                                    <div className="images-grid mt-10 mb-10 flex flex-wrap gap-5">
                                         <div
                                             className={clsx(
                                                 'w-24 h-24 rounded-md bg-white dark:bg-dark p-3 shadow cursor-pointer hover:opacity-50',
@@ -115,7 +110,7 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
                                             )}
                                         >
                                             <img
-                                                src="/avatar-gallery/upload.png"
+                                                src="/upload.png"
                                                 alt=""
                                                 className={clsx('w-10 dark:invert')}
                                                 onClick={(e) => {}}

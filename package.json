@@ -8,6 +8,8 @@
         "npm": ">=6.14.8"
     },
     "scripts": {
+        "prestart": "node scripts/prestart.js",
+        "postinstall": "node scripts/prestart.js",
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
