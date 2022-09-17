@@ -41,5 +41,5 @@ export function PrivateRoute({ element }: PrivateRouteProps) {
             })
     }, [location.key])
 
-    return <>{isTokenVerified ? element : <AppProgressBar key={location.pathname} />}</>
+    return <>{isTokenVerified ? element : <AppProgressBar key={location.key} />}</>
 }

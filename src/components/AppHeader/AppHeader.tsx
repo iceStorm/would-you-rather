@@ -34,7 +34,7 @@ export function AppHeader(props: React.HTMLAttributes<HTMLDivElement>) {
             },
             {
                 title: 'Create Question',
-                href: '/questions/add',
+                href: '/add',
                 icon: askIcon,
                 description: 'Submit a new question',
                 titleColor: 'text-blue-500 dark:text-blue-400',

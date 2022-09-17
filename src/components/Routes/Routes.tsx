@@ -29,6 +29,7 @@ export function AppRoutes() {
                     <Route path="register" element={<RegisterPage />} />
 
                     {/* Question */}
+                    <Route path="add" element={<PrivateRoute element={<QuestionAddPage />} />} />
                     <Route path="questions/*">
                         <Route path=":question_id" element={<PrivateRoute element={<QuestionDetailPage />} />} />
                         <Route path="add" element={<PrivateRoute element={<QuestionAddPage />} />} />
