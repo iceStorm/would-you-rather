@@ -60,7 +60,7 @@ function LeaderBoardCard({ user, index }: { user: User; index: number }) {
             )}
         >
             <div className="flex-1 relative w-32 h-32 flex justify-center items-center">
-                <AppUserAvatar avatarName={user.avatarURL} className="w-20 absolute max-w-full" />
+                <AppUserAvatar avatarName={user.avatarURL} className="w-20 h-20 absolute max-w-full" />
                 <img
                     src={index === 0 ? goldBorder : index === 1 ? silverBorder : index === 2 ? bronzeBorder : ''}
                     alt=""

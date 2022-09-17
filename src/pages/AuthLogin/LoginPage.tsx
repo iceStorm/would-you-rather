@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { UseControllerProps, useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MessageBar, Spinner } from '@fluentui/react'
 import clsx from 'clsx'
@@ -25,6 +25,13 @@ export function LoginPage() {
     const { isSigningIn, isVerifyingToken } = useAppSelector((state) => state.auth)
     const { control, handleSubmit, setValue } = useForm<LoginParams>()
     const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
+
+    const inputRules: UseControllerProps['rules'] = {
+        pattern: {
+            value: new RegExp(/[\S\s]+[\S]+/),
+            message: 'This field can not be empty and must have two or more letters',
+        },
+    }
 
     useEffect(() => {
         if (AuthService.token) {
@@ -96,7 +103,7 @@ export function LoginPage() {
                             placeholder="Username"
                             className="app-input-field"
                             disabled={isSigningIn}
-                            rules={{ required: { message: 'Please fill out username', value: true } }}
+                            rules={{ ...inputRules, required: { message: 'Please fill out username', value: true } }}
                         />
                         <AppInputField
                             control={control}
@@ -107,7 +114,7 @@ export function LoginPage() {
                             type="password"
                             canRevealPasswords
                             disabled={isSigningIn}
-                            rules={{ required: { message: 'Please fill out password', value: true } }}
+                            rules={{ ...inputRules, required: { message: 'Please fill out password', value: true } }}
                         />
 
                         {messageContent && (

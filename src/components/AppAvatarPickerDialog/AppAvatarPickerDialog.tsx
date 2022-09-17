@@ -26,8 +26,14 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
     const currentUser = selectCurrentUser()
     const [isSavingAvatar, setIsSavingAvatar] = useState(false)
     const [selectedAvatarName, setSelectedAvatarName] = useState<galleryAvatarType | string>('')
+    const [uploadedAvatarBase64, setUploadedAvatarBase64] = useState<string | null | undefined>('')
 
     function closeModal() {
+        if (uploadedAvatarBase64) {
+            setUploadedAvatarBase64(null)
+            return
+        }
+
         onClosed()
         setSelectedAvatarName('')
     }
@@ -35,7 +41,7 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
     function onSaveChange() {
         setIsSavingAvatar(true)
 
-        const avatarPath = galleryAvatars[selectedAvatarName as galleryAvatarType]
+        const avatarPath = uploadedAvatarBase64 || galleryAvatars[selectedAvatarName as galleryAvatarType]
         dispatch(updateAvatar(avatarPath))
             .unwrap()
             .then(() => {
@@ -57,6 +63,20 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
     const getImageModule = (name: string) => {
         // const avatarModulePath = `../../assets/avatar-gallery/${name}.png`
         return process.env.PUBLIC_URL + `/avatar-gallery/${name}.png`
+    }
+
+    const handleInputFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || !e.target.files[0]) return
+
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load', function (evt) {
+            setUploadedAvatarBase64(evt.target?.result as string)
+        })
+
+        fileReader.readAsDataURL(e.target.files[0])
+
+        // reset value when processed
+        e.target.value = ''
     }
 
     return (
@@ -101,46 +121,59 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
                                     </div>
 
                                     {/* body */}
-                                    <div className="images-grid mt-10 mb-10 flex flex-wrap gap-5">
-                                        <div
-                                            className={clsx(
-                                                'w-24 h-24 rounded-md bg-white dark:bg-dark p-3 shadow cursor-pointer hover:opacity-50',
-                                                'border dark:border-dark-border',
-                                                'flex flex-col items-center gap-3',
-                                            )}
-                                        >
-                                            <img
-                                                src="/upload.png"
-                                                alt=""
-                                                className={clsx('w-10 dark:invert')}
-                                                onClick={(e) => {}}
-                                            />
-                                            <p className="text-sm text-gray-500">Upload</p>
-                                        </div>
-
-                                        {Object.entries(galleryAvatars).map(([name, base64]) => (
-                                            <img
-                                                key={name}
-                                                src={getImageModule(name)}
-                                                alt=""
+                                    {!uploadedAvatarBase64 ? (
+                                        <div className="images-grid mt-10 mb-10 flex flex-wrap gap-5">
+                                            <label
                                                 className={clsx(
                                                     'w-24 h-24 rounded-md bg-white dark:bg-dark p-3 shadow cursor-pointer hover:opacity-50',
                                                     'border dark:border-dark-border',
-                                                    {
-                                                        'ring-2 ring-primary': selectedAvatarName === name,
-                                                    },
+                                                    'flex flex-col items-center gap-3',
                                                 )}
-                                                onClick={(e) => setSelectedAvatarName(name)}
+                                            >
+                                                <img src="/upload.png" alt="" className={clsx('w-10 dark:invert')} />
+                                                <p className="text-sm text-gray-500">Upload</p>
+                                                <input
+                                                    type="file"
+                                                    name=""
+                                                    id="input-avatar-picker"
+                                                    accept="image/png, image/jpeg"
+                                                    onChange={handleInputFileChange}
+                                                    hidden
+                                                />
+                                            </label>
+
+                                            {Object.entries(galleryAvatars).map(([name, base64]) => (
+                                                <img
+                                                    key={name}
+                                                    src={getImageModule(name)}
+                                                    alt=""
+                                                    className={clsx(
+                                                        'w-24 h-24 rounded-md bg-white dark:bg-dark p-3 shadow cursor-pointer hover:opacity-50',
+                                                        'border dark:border-dark-border',
+                                                        {
+                                                            'ring-2 ring-primary': selectedAvatarName === name,
+                                                        },
+                                                    )}
+                                                    onClick={(e) => setSelectedAvatarName(name)}
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="images-grid mt-10 mb-10 flex flex-wrap gap-5">
+                                            <img
+                                                src={uploadedAvatarBase64 as string}
+                                                alt=""
+                                                className="w-72 h-72 rounded-full mx-auto shadow object-cover"
                                             />
-                                        ))}
-                                    </div>
+                                        </div>
+                                    )}
 
                                     {/* footer */}
                                     <div className="flex justify-between items-center">
                                         <button
                                             className="app-button"
                                             onClick={onSaveChange}
-                                            disabled={!selectedAvatarName || isSavingAvatar}
+                                            disabled={(!selectedAvatarName && !uploadedAvatarBase64) || isSavingAvatar}
                                         >
                                             <AppLoadingCircle showing={isSavingAvatar} />
                                             <span>Save change</span>

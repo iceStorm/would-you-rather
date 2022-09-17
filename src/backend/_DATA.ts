@@ -5,8 +5,8 @@ export const INITIAL_USERS = {
     sarahedo: {
         id: 'sarahedo',
         name: 'Sarah Edo',
-        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC', // decrypted: 123456
-        avatarURL: '',
+        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC',
+        avatarURL: 'cat.png',
         answers: {
             '8xf0y6ziyjabvozdd253nd': 'optionOne',
             '6ni6ok3ym7mf1p33lnez': 'optionTwo',
@@ -18,19 +18,16 @@ export const INITIAL_USERS = {
     tylermcginnis: {
         id: 'tylermcginnis',
         name: 'Tyler McGinnis',
-        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC', // decrypted: 123456
-        avatarURL: '',
-        answers: {
-            vthrdm985a262al8qx3do: 'optionOne',
-            xj352vofupe1dqz9emx13r: 'optionTwo',
-        },
+        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC',
+        avatarURL: 'dog.png',
+        answers: { vthrdm985a262al8qx3do: 'optionOne', xj352vofupe1dqz9emx13r: 'optionTwo' },
         questions: ['loxhs1bqm25b708cmbf3g', 'vthrdm985a262al8qx3do'],
     },
     johndoe: {
         id: 'johndoe',
         name: 'John Doe',
-        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC', // decrypted: 123456
-        avatarURL: '',
+        password: '$2a$11$.QdXI1uyPpkFz9xrI3MpC.wGVJZ8bs3vTSbQvY00KadTudMZbWBWC',
+        avatarURL: 'hippopotamus.png',
         answers: {
             xj352vofupe1dqz9emx13r: 'optionOne',
             vthrdm985a262al8qx3do: 'optionTwo',

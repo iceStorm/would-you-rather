@@ -1,7 +1,7 @@
-import clsx from 'clsx'
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { RadioGroup } from '@headlessui/react'
+import clsx from 'clsx'
 
 import { AnswerOptionKey, AnswerOptionValue, Question } from '../../models/Question'
 import { useAppDispatch } from '../../store'
@@ -42,54 +42,47 @@ export function QuestionDetailPage() {
         }
 
         // fetch question details from question id
-        dispatch(getQuestionById(question_id))
-            .unwrap()
-            .then((question) => {
-                // get question author
-                dispatch(getUserById(question.author))
-                    .unwrap()
-                    .then((author) => {
-                        setQuestionAuthor(author)
+        ;(async () => {
+            try {
+                const question = await dispatch(getQuestionById(question_id)).unwrap()
+                const questionAuthor = await dispatch(getUserById(question.author)).unwrap()
 
-                        setQuestion(question)
-                        setOptions([
-                            {
-                                key: 'optionOne',
-                                value: question.optionOne,
-                            },
-                            {
-                                key: 'optionTwo',
-                                value: question.optionTwo,
-                            },
-                        ])
-                        setTotalVoteCounts(question.optionOne.votes.length + question.optionTwo.votes.length)
+                setQuestionAuthor(questionAuthor)
+                setQuestion(question)
+                setOptions([
+                    {
+                        key: 'optionOne',
+                        value: question.optionOne,
+                    },
+                    {
+                        key: 'optionTwo',
+                        value: question.optionTwo,
+                    },
+                ])
+                setTotalVoteCounts(question.optionOne.votes.length + question.optionTwo.votes.length)
 
-                        // check whether the question has been selected by current signed in user
-                        if (
-                            question.optionOne.votes.includes(currentUser!.id) ||
-                            question.optionTwo.votes.includes(currentUser!.id)
-                        ) {
-                            setIsCurrentUserSelected(true)
+                // check whether the question has been selected by current signed in user
+                if (
+                    question.optionOne.votes.includes(currentUser!.id) ||
+                    question.optionTwo.votes.includes(currentUser!.id)
+                ) {
+                    setIsCurrentUserSelected(true)
 
-                            const currentUserSelectedOption = question.optionOne.votes.includes(currentUser!.id)
-                                ? question.optionOne.text
-                                : question.optionTwo.text
+                    const currentUserSelectedOption = question.optionOne.votes.includes(currentUser!.id)
+                        ? question.optionOne.text
+                        : question.optionTwo.text
 
-                            // pre-populate the selected option of the current user
-                            setSelected(currentUserSelectedOption)
-                        }
-                    })
-                    .catch((error) => {
-                        useAuthErrorHandler(error)
-                    })
-            })
-            .catch((error) => {
+                    // pre-populate the selected option of the current user
+                    setSelected(currentUserSelectedOption)
+                }
+            } catch (error: any) {
                 if (error.startsWith('Could not find a question with id')) {
                     navigate('/404')
                 } else {
                     useAuthErrorHandler(error)
                 }
-            })
+            }
+        })()
     }, [])
 
     function handleSubmit() {
@@ -128,7 +121,7 @@ export function QuestionDetailPage() {
                     <div className={clsx('p-3 px-5 text-center border-b dark:border-dark-border')}>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-1">
-                                <AppUserAvatar avatarName={questionAuthor?.avatarURL} className="w-7" />
+                                <AppUserAvatar avatarName={questionAuthor?.avatarURL} className="w-5 h-5" />
 
                                 <div>
                                     <span className="font-bold dark:text-gray-200">{questionAuthor?.name}</span>{' '}

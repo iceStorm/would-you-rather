@@ -1,6 +1,6 @@
 import { MessageBar } from '@fluentui/react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { UseControllerProps, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 
@@ -20,6 +20,13 @@ export function RegisterPage() {
     const { messageType, messageContent, showMessage, clearMessage } = useAppMessage()
     const { control, handleSubmit } = useForm<RegisterParams>()
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const inputRules: UseControllerProps['rules'] = {
+        pattern: {
+            value: new RegExp(/[\S\s]+[\S]+/),
+            message: 'This field can not be empty and must have two or more letters',
+        },
+    }
 
     const onSubmit = handleSubmit((data) => {
         setIsSubmitting(true)
@@ -74,7 +81,7 @@ export function RegisterPage() {
                             placeholder="Username"
                             className="app-input-field"
                             disabled={isSubmitting}
-                            rules={{ required: { message: 'Please fill out username', value: true } }}
+                            rules={{ ...inputRules, required: { message: 'Please fill out username', value: true } }}
                         />
                         <AppInputField
                             control={control}
@@ -84,7 +91,10 @@ export function RegisterPage() {
                             className="app-input-field"
                             type="text"
                             disabled={isSubmitting}
-                            rules={{ required: { message: 'Please fill out your full name', value: true } }}
+                            rules={{
+                                ...inputRules,
+                                required: { message: 'Please fill out your full name', value: true },
+                            }}
                         />
                         <AppInputField
                             control={control}
@@ -95,7 +105,7 @@ export function RegisterPage() {
                             type="password"
                             canRevealPasswords
                             disabled={isSubmitting}
-                            rules={{ required: { message: 'Please fill out password', value: true } }}
+                            rules={{ ...inputRules, required: { message: 'Please fill out password', value: true } }}
                         />
 
                         {messageContent && (
