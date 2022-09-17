@@ -15,7 +15,7 @@ To get started developing right away:
 |   └── ...
 |
 ├── scripts # npm script hooks
-│   └── prestart.js # contains npm "preinstall" hook implemetation, for auto generating a JSON file for declaring avatars in "public/avatar-gallery" folder
+│   └── prestart.js # contains npm "prestart" hook implemetation, for auto generating a JSON file for declaring avatars in "public/avatar-gallery" folder
 |
 ├── src
 │   ├── assets # contains application images
