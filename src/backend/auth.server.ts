@@ -48,7 +48,7 @@ export class AuthServer {
         }
 
         const authToken = await JwtService.sign({ userId: foundUserById.id })
-        return authToken
+        return { authToken, foundUserById }
     }
 
     static async register(username: string, password: string, fullName: string) {

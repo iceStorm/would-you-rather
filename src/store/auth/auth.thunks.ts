@@ -7,7 +7,7 @@ import { RegisterParams } from '../../models/RegisterParams'
 // delegating main login to AuthService (frontend), these thunks should only handle end results
 export const login = createAsyncThunk('auth/login', async (credentials: LoginParams, { rejectWithValue }) => {
     try {
-        await AuthService.login(credentials)
+        return await AuthService.login(credentials)
     } catch (error: any) {
         return rejectWithValue(error.message)
     }

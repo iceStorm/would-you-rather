@@ -11,11 +11,10 @@ import { useAppMessage } from '../../hooks/useAppMessage'
 import { LoginParams } from '../../models/LoginParams'
 import { RegisterParams } from '../../models/RegisterParams'
 import { useAppDispatch } from '../../store'
-import { login, verifyToken } from '../../store/auth/auth.thunks'
+import { login } from '../../store/auth/auth.thunks'
 import { useAppSelector } from '../../store/hooks'
 
 import styles from './LoginPage.module.css'
-import { AuthService } from '../../store/auth/auth.service'
 
 export function LoginPage() {
     const location = useLocation()
@@ -34,17 +33,6 @@ export function LoginPage() {
     }
 
     useEffect(() => {
-        if (AuthService.token) {
-            dispatch(verifyToken())
-                .then(() => {
-                    // the user is stills logged in -> redirect back to home page
-                    navigate('/')
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-        }
-
         console.log('location:', location.state)
 
         // auto fill the login form fields if was sent from registe page
@@ -64,7 +52,7 @@ export function LoginPage() {
 
         dispatch(login(data))
             .unwrap()
-            .then(() => {
+            .then((user) => {
                 navigate((location.state as any)?.from || '/')
             })
             .catch((error) => {

@@ -19,8 +19,9 @@ export class AuthService {
     }
 
     static async login({ username, password }: LoginParams) {
-        const authToken = await AuthServer.login(username, password)
+        const { authToken, foundUserById } = await AuthServer.login(username, password)
         this.token = authToken
+        return foundUserById
     }
 
     static async verifyToken() {

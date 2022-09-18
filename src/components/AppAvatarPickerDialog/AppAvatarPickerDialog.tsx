@@ -47,9 +47,8 @@ export function AppAvatarPickerDialog({ isOpen, onClosed }: AppAvatarPickerDialo
             .then(() => {
                 const updatedUser = _.cloneDeep(currentUser)
                 updatedUser!.avatarURL = avatarPath
-                setCurrentUser(updatedUser)
+                dispatch(setCurrentUser(updatedUser))
                 closeModal()
-                navigate(0) // reload
             })
             .catch((error) => {
                 console.error(error)

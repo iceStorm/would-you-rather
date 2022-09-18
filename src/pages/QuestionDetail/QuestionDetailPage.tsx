@@ -83,7 +83,7 @@ export function QuestionDetailPage() {
                 }
             }
         })()
-    }, [])
+    }, [isCurrentUserSelected])
 
     function handleSubmit() {
         clearMessage()
@@ -101,7 +101,7 @@ export function QuestionDetailPage() {
         )
             .unwrap()
             .then(() => {
-                navigate(0)
+                setIsCurrentUserSelected(true)
             })
             .catch((error) => {
                 useAuthErrorHandler(error)

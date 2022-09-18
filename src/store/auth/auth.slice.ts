@@ -17,6 +17,7 @@ export const authSlice = createSlice({
     } as AuthState,
     reducers: {
         setCurrentUser(state, action: PayloadAction<User | undefined>) {
+            console.log('setCurrentUser', action.payload);
             state.currentUser = action.payload
         },
         logOut(state) {
@@ -29,8 +30,9 @@ export const authSlice = createSlice({
         [login.pending.type]: (state) => {
             state.isSigningIn = true
         },
-        [login.fulfilled.type]: (state) => {
+        [login.fulfilled.type]: (state, action: PayloadAction<User>) => {
             state.isSigningIn = false
+            state.currentUser = action.payload
         },
         [login.rejected.type]: (state) => {
             state.isSigningIn = false
